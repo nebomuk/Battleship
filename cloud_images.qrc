@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>cloud_images/cloud0.svg</file>
+        <file>cloud_images/cloud1.svg</file>
+        <file>cloud_images/cloud2.svg</file>
+    </qresource>
+</RCC>

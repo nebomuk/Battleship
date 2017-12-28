@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="ai.js">battleship20/src/ai.js</file>
+        <file alias="control.js">battleship20/src/control.js</file>
+        <file alias="emitter.js">battleship20/src/emitter.js</file>
+        <file alias="mainloop.js">battleship20/src/mainloop.js</file>
+    </qresource>
+</RCC>
