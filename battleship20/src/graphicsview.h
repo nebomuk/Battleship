@@ -13,8 +13,7 @@
 #include "counteritem.h"
 #include "gamestate.h"
 #include "mainmenu.h"
-#include "emitter.h"
-#include "ai.h"
+
 
 class GraphicsView : public QGraphicsView
 {
@@ -53,9 +52,6 @@ protected:
 	void readSettings();
 	void writeSettings();
 
-	// script backport
-	void mainLoop();
-
 signals:
 	void signalKeyPress(int);
 	void signalKeyRelease(int);
@@ -64,7 +60,6 @@ private:
 	QGraphicsScene *  scene;
 	GraphicsEngine * graphicsEngine;
 	QBasicTimer *timer;
-	QString dataLocation;
 	QString applicationFolder;
 	QPointer<Vehicle> playerVehicle; // automatically set to NULL if destroyed
 	AnimatedSvgItem * hitpointsBar_;
@@ -78,8 +73,6 @@ private:
 	MainMenu * mainMenu_;
 	QGraphicsProxyWidget * mainMenuProxy_;
 
-	Emitter * emitter_;
-	AI * ai_;
 	int mainLoopCounter_;
 };
 #endif

@@ -5,9 +5,6 @@
 #include "graphicsview.h"
 #include "globalvariables.h"
 #include "svgcache.h"
-
-#include "control.h"
-
 #include <QtDebug>
 
 
@@ -24,16 +21,7 @@ GraphicsView::GraphicsView( QWidget * parent)
 	mainMenuProxy_ = NULL;
 	renderer_ = "Software";
 	pixmapCaching_ = false;
-	ai_ = NULL;
-	emitter_ = NULL;
 	mainLoopCounter_ = 1;
-
-	// dataLocation is the location for this application's data
-#ifdef Q_OS_LINUX
-	 dataLocation = QString(QDir::homePath() + "/.battleship/");
-#else
-	 dataLocation = QDesktopServices::storageLocation(QDesktopServices::DataLocation) + "/battleship/";
-#endif
 
 	gameState = new GameState;
 	readSettings();
@@ -286,7 +274,7 @@ void GraphicsView::updateTopLevel()
 // read window geometry
 void GraphicsView::readSettings()
 {
-	QSettings settings(dataLocation + "battleship.ini", QSettings::IniFormat,this);
+    QSettings settings;
 	QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
 	QSize size = settings.value("size", QSize(800, 600)).toSize();
 	renderer_ = settings.value("renderer",QString("Software")).toString();
@@ -299,7 +287,7 @@ void GraphicsView::readSettings()
 // save window geometry
 void GraphicsView::writeSettings()
 {
-	QSettings settings(dataLocation + "battleship.ini", QSettings::IniFormat,this);
+    QSettings settings;
 	settings.setValue("pos", pos());
 	settings.setValue("size", size());
 	settings.setValue("renderer",renderer_);
@@ -345,64 +333,3 @@ void GraphicsView::setRenderer(const QString& renderer)
 	warning.exec();
 }
 
-void GraphicsView::mainLoop()
-{
-	if(!ai_ || !emitter_)
-	return;
-
-	if(mainLoopCounter_ %gameState->phaseChangeCycles() != 0 || gameState->finalPhase())
-	{
-		++mainLoopCounter_;
-		switch(gameState->phase())
-		{
-			case 0:
-			{
-				ai_->AIRoutine0();
-				emitter_->emitter0();
-				emitter_->backgroundEmitter();
-				break;
-			}
-			case 1:
-			{
-				ai_->AIRoutine1();
-				emitter_->emitter1();
-				emitter_->backgroundEmitter();
-				break;
-			}
-			case 2:
-			{
-				ai_->AIRoutine2();
-				emitter_->emitter2();
-				emitter_->backgroundEmitter();
-				break;
-			}
-			case 3:
-			{
-				gameState->setFinalPhase(true); // disable timed phase change
-				ai_->AIRoutine3();
-				emitter_->emitter3();
-				emitter_->backgroundEmitter();
-				if(graphicsEngine->submarines().size() == 0)
-					gameState->setPhase(gameState->phase() +1);
-				break;
-			}
-		}
-	}
-	else
-	{
-		ai_->AIRoutineDefault();
-		emitter_->backgroundEmitter();
-		if(graphicsEngine->submarines().size() == 0 && graphicsEngine->projectiles().size() == 0)
-		{
-			gameState->setPhase(gameState->phase() +1);
-			mainLoopCounter_ = 1;
-			playerVehicle->setHitpoints(10);
-
-			if(gameState->phase() == 4)
-				graphicsEngine->showText("Victory", 5000);
-			else if(gameState->phase() <4)
-				graphicsEngine->showText("Phase " + QString::number(gameState->phase()),1000);
-		}
-	}
-
-}

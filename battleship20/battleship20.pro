@@ -16,9 +16,6 @@ HEADERS = src/vehicle.h \
 	src/graphicsengine.h \
 	src/counteritem.h \
 	src/gamestate.h \
-	src/control.h \
-	src/emitter.h \
-	src/ai.h \
 	src/mainmenu.h \
     src/jsproxy.h
 MOC_DIR = build
@@ -26,7 +23,6 @@ OBJECTS_DIR = build
 UI_DIR = build
 FORMS = ui/mainmenu.ui
 QT += svg \
-	script \
         opengl \
         qml
 SOURCES = src/vehicle.cpp \
