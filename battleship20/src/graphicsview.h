@@ -10,7 +10,6 @@
 #include "centerrectinrect.h"
 #include "jsproxy.h"
 #include "graphicsengine.h"
-#include "counteritem.h"
 #include "gamestate.h"
 #include "mainmenu.h"
 
@@ -63,7 +62,7 @@ private:
 	QString applicationFolder;
 	QPointer<Vehicle> playerVehicle; // automatically set to NULL if destroyed
 	AnimatedSvgItem * hitpointsBar_;
-	CounterItem * highscoreCounter_;
+    QPointer<QLCDNumber> highScoreCounter_;
 
     QPointer<JSProxy> scriptProxy;
 	GameState * gameState;

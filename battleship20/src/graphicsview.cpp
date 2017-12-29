@@ -14,11 +14,11 @@
 GraphicsView::GraphicsView( QWidget * parent)
 		: QGraphicsView(parent)
 {
-	playerVehicle = NULL;
-	hitpointsBar_ = NULL;
-	highscoreCounter_ = NULL;
-	mainMenu_ = NULL;
-	mainMenuProxy_ = NULL;
+    playerVehicle = Q_NULLPTR;
+    hitpointsBar_ = Q_NULLPTR;
+    highScoreCounter_ = Q_NULLPTR;
+    mainMenu_ = Q_NULLPTR;
+    mainMenuProxy_ = Q_NULLPTR;
 	renderer_ = "Software";
 	pixmapCaching_ = false;
 	mainLoopCounter_ = 1;
@@ -64,10 +64,17 @@ GraphicsView::GraphicsView( QWidget * parent)
 
 	createScriptProxy();
 
-	highscoreCounter_ = new CounterItem;
-	highscoreCounter_->setDigitsFile(":train_digits.svg");
-	highscoreCounter_->setZValue(100.0);
-	scene->addItem(highscoreCounter_);
+    highScoreCounter_ = new QLCDNumber();
+    highScoreCounter_->resize(highScoreCounter_->sizeHint() * 3);
+    highScoreCounter_->setSegmentStyle(QLCDNumber::Flat);
+
+    highScoreCounter_->setStyleSheet("color: black;"
+                            "background-color: transparent;"
+                                     );
+    highScoreCounter_->setFrameStyle(QFrame::NoFrame);
+
+    QGraphicsProxyWidget* proxy = scene->addWidget(highScoreCounter_);
+    proxy->setZValue(100.0);
 
 	createMainMenu();
 
@@ -97,9 +104,9 @@ void GraphicsView::resizeEvent(QResizeEvent *event)
 	{
 		hitpointsBar_->setPos(800.0 + borderSceneRectDist -128,32.0);
 	}
-	if(highscoreCounter_)
+    if(highScoreCounter_ != Q_NULLPTR && highScoreCounter_->graphicsProxyWidget() != Q_NULLPTR)
 	{
-		highscoreCounter_->setPos(QPointF(0 - borderSceneRectDist +64.0, 32.0));
+        highScoreCounter_->graphicsProxyWidget()->setPos(QPointF(0 - borderSceneRectDist +64.0, 32.0));
 	}
 
 }
@@ -261,8 +268,8 @@ void GraphicsView::updateTopLevel()
 	if(playerVehicle && hitpointsBar_->frame() != playerVehicle->hitpoints())
 		hitpointsBar_->setFrame(playerVehicle->hitpoints());
 
-	if(highscoreCounter_ && highscoreCounter_->value() != graphicsEngine->destroyedSubmarineCount())
-		highscoreCounter_->setValue(graphicsEngine->destroyedSubmarineCount());
+    if(highScoreCounter_ &&  highScoreCounter_->intValue() != graphicsEngine->destroyedSubmarineCount())
+        highScoreCounter_->display(graphicsEngine->destroyedSubmarineCount());
 
 	else if(!playerVehicle)
 	{

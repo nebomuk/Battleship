@@ -14,7 +14,6 @@ HEADERS = src/vehicle.h \
 	src/graphicsview.h \
 	src/animatedsvgitem.h \
 	src/graphicsengine.h \
-	src/counteritem.h \
 	src/gamestate.h \
 	src/mainmenu.h \
     src/jsproxy.h
@@ -34,7 +33,6 @@ SOURCES = src/vehicle.cpp \
 	src/svgcache.cpp \
 	src/graphicsview.cpp \
 	src/graphicsengine.cpp \
-	src/counteritem.cpp \
 	src/mainmenu.cpp \
     src/jsproxy.cpp
 RESOURCES = ../images2.qrc \
