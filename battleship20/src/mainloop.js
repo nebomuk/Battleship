@@ -62,7 +62,7 @@ function mainLoop()
 
 function phaseChange(newPhase) // argument not used
 {
-	if(newPhase == 4)
+    if(newPhase === 4)
 		graphicsEngine.showText(qsTr('Victory'), 5000);
 	else if(newPhase <4)
 		graphicsEngine.showText(qsTr('Phase ') + newPhase,3000);
