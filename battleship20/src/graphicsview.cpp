@@ -22,6 +22,7 @@ GraphicsView::GraphicsView( QWidget * parent)
 	renderer_ = "Software";
 	pixmapCaching_ = false;
 	mainLoopCounter_ = 1;
+    doubleBackToExitPressedOnce_ = false;
 
 	gameState = new GameState;
 	readSettings();
@@ -167,12 +168,35 @@ void GraphicsView::keyPressEvent(QKeyEvent *event)
 
 		break;
 	}
+#ifdef Q_OS_ANDROID
+case Qt::Key_Back:
+{
+    if(graphicsEngine->gameState()->gameOver() || doubleBackToExitPressedOnce_)
+    {
+       this->close(); // back to menu
+    }
+
+    graphicsEngine->showText(tr("Please click BACK again to return to the menu"));
+    doubleBackToExitPressedOnce_ = true;
+    QTimer::singleShot(2000,this,&GraphicsView::hideDoublePressToExit);
+
+    break;
+}
+#endif
 	default:
 		{
 				emit signalKeyPress(event->key());
 		}
 	}
 }
+
+#ifdef Q_OS_ANDROID
+void GraphicsView::hideDoublePressToExit()
+{
+    graphicsEngine->hideText();
+    doubleBackToExitPressedOnce_ = false;
+}
+#endif
 
 void GraphicsView::keyReleaseEvent(QKeyEvent *event)
 {

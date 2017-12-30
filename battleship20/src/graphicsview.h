@@ -55,6 +55,11 @@ signals:
 	void signalKeyPress(int);
 	void signalKeyRelease(int);
 
+private slots:
+#ifdef Q_OS_ANDROID
+    void hideDoublePressToExit();
+#endif
+
 private:
 	QGraphicsScene *  scene;
 	GraphicsEngine * graphicsEngine;
@@ -73,6 +78,8 @@ private:
 	QGraphicsProxyWidget * mainMenuProxy_;
 
 	int mainLoopCounter_;
+
+    bool doubleBackToExitPressedOnce_;
 };
 #endif
 
