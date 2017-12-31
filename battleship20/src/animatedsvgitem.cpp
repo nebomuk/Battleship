@@ -70,9 +70,9 @@ void AnimatedSvgItem::init()
 
 	frameRateDivisor_ = 1;
 	currentFrame_ = 0;
-	svgCache_ = NULL;
+	svgCache_ = Q_NULLPTR;
 
-	renderer_ = NULL;
+	renderer_ = Q_NULLPTR;
 
 	pixmapCaching_ = false;
 

@@ -122,10 +122,10 @@ bool GraphicsEngine::processCollision(Vehicle * projectile)
 	bool collides = false;
 
 	QList<QGraphicsItem*> collisions = projectile->collidingItems(Qt::IntersectsItemBoundingRect);
-	foreach(QGraphicsItem* item, collisions)
+    for(QGraphicsItem* item : collisions)
 		{
 			Vehicle * vehicle = qgraphicsitem_cast<Vehicle*>(item);
-			if(vehicle != NULL
+			if(vehicle != Q_NULLPTR
 			   && vehicle->diplomacy() != 0 // neutral is 0
 			   && vehicle->diplomacy() != projectile->diplomacy()) // compare diplomacy
 			{

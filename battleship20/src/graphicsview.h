@@ -12,6 +12,7 @@
 #include "graphicsengine.h"
 #include "gamestate.h"
 #include "mainmenu.h"
+#include "graphicssoftbutton.h"
 
 
 class GraphicsView : public QGraphicsView
@@ -21,11 +22,8 @@ public:
 	GraphicsView( QWidget * parent = 0);
 
 public slots:
-	// set this to "Software" or "OpenGL", changes will be visible next start
-	void setRenderer(const QString& renderer);
 
-	// pauses the game
-	void togglePause();
+    void onApplicationStateChanged(Qt::ApplicationState state);
 
 protected:
 
@@ -60,8 +58,11 @@ private slots:
     void hideDoublePressToExit();
 #endif
 
+
 private:
-	QGraphicsScene *  scene;
+    void setPaused(bool b);
+    bool isPaused();
+
 	GraphicsEngine * graphicsEngine;
 	QBasicTimer *timer;
 	QString applicationFolder;
@@ -71,7 +72,6 @@ private:
 
     QPointer<JSProxy> scriptProxy;
 	GameState * gameState;
-	QString renderer_;
 	bool pixmapCaching_;
 
 	MainMenu * mainMenu_;
@@ -79,7 +79,16 @@ private:
 
 	int mainLoopCounter_;
 
+    QList<GraphicsSoftButton* > leftSoftButtons_;
+    QList<GraphicsSoftButton* > rightSoftButtons_;
+
     bool doubleBackToExitPressedOnce_;
+
+    QPointF borderSceneRectDist_;
+
+    void adjustSoftButtonPositions();
+    void createHighScoreCounter();
+    void createSoftButtons();
 };
 #endif
 

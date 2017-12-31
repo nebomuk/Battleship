@@ -14,5 +14,8 @@
         <file>images2/bossSubmarine2.svg</file>
         <file>images2/bossSubmarine3.svg</file>
         <file>images2/blueBomb.svg</file>
+        <file>images2/crosshairs.svg</file>
+        <file>images2/ic_arrow_back_black_24px.svg</file>
+        <file>images2/ic_arrow_forward_black_24px.svg</file>
     </qresource>
 </RCC>

@@ -11,6 +11,21 @@
 
 // note internal resolution is 800*600 for positions of items
 
+void GraphicsView::createHighScoreCounter()
+{
+    highScoreCounter_ = new QLCDNumber();
+    highScoreCounter_->resize(highScoreCounter_->sizeHint() * 3);
+    highScoreCounter_->setSegmentStyle(QLCDNumber::Flat);
+
+    highScoreCounter_->setStyleSheet("color: black;"
+                            "background-color: transparent;"
+                                     );
+    highScoreCounter_->setFrameStyle(QFrame::NoFrame);
+
+    QGraphicsProxyWidget* proxy = scene()->addWidget(highScoreCounter_);
+    proxy->setZValue(100.0);
+}
+
 GraphicsView::GraphicsView( QWidget * parent)
 		: QGraphicsView(parent)
 {
@@ -19,7 +34,6 @@ GraphicsView::GraphicsView( QWidget * parent)
     highScoreCounter_ = Q_NULLPTR;
     mainMenu_ = Q_NULLPTR;
     mainMenuProxy_ = Q_NULLPTR;
-	renderer_ = "Software";
 	pixmapCaching_ = false;
 	mainLoopCounter_ = 1;
     doubleBackToExitPressedOnce_ = false;
@@ -33,7 +47,6 @@ GraphicsView::GraphicsView( QWidget * parent)
 
 	// activates OpenGL
 	// if you uncomment this, add opengl to the QT variable in the project file
-	this->setViewport(renderer_ == "OpenGL" ? new QGLWidget(QGLFormat(QGL::SampleBuffers)) : new QWidget);
 	// hide cursor
 	//setCursor(Qt::BlankCursor);
 
@@ -44,7 +57,7 @@ GraphicsView::GraphicsView( QWidget * parent)
 										|QGraphicsView::DontSavePainterState
 										|QGraphicsView::DontAdjustForAntialiasing);
 
-	scene = new QGraphicsScene(0.0,0.0,800.0,600.0,this);
+    QGraphicsScene * scene = new QGraphicsScene(0.0,0.0,800.0,600.0,this);
 	scene->setItemIndexMethod(QGraphicsScene::NoIndex);
 	scene->setBackgroundBrush(createBackgroundGradient());
 	setSceneRect(scene->sceneRect());
@@ -61,25 +74,21 @@ GraphicsView::GraphicsView( QWidget * parent)
 
 	setStyleSheet("QGraphicsView { border: none }");
 
+    this->setScene(scene);
+
 	createPlayerVehicle();
 
 	createScriptProxy();
 
-    highScoreCounter_ = new QLCDNumber();
-    highScoreCounter_->resize(highScoreCounter_->sizeHint() * 3);
-    highScoreCounter_->setSegmentStyle(QLCDNumber::Flat);
-
-    highScoreCounter_->setStyleSheet("color: black;"
-                            "background-color: transparent;"
-                                     );
-    highScoreCounter_->setFrameStyle(QFrame::NoFrame);
-
-    QGraphicsProxyWidget* proxy = scene->addWidget(highScoreCounter_);
-    proxy->setZValue(100.0);
+    createHighScoreCounter();
 
 	createMainMenu();
 
-	this->setScene(scene);
+    createSoftButtons();
+
+    adjustSoftButtonPositions();
+
+
 
 	timer = new QBasicTimer;
 	timer->start(global::TimeoutInterval,this); // starting global timer here
@@ -88,10 +97,12 @@ GraphicsView::GraphicsView( QWidget * parent)
 	graphicsEngine->showText(tr("Phase ") + QString::number(gameState->phase()),3000);
 }
 
+
+
 void GraphicsView::resizeEvent(QResizeEvent *event)
 {
 	QGraphicsView::resizeEvent(event);
-	fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
+    fitInView(scene()->sceneRect(), Qt::KeepAspectRatio);
 
 	int width = event->size().width();
 	int height= event->size().height();
@@ -110,6 +121,8 @@ void GraphicsView::resizeEvent(QResizeEvent *event)
         highScoreCounter_->graphicsProxyWidget()->setPos(QPointF(0 - borderSceneRectDist +64.0, 32.0));
 	}
 
+    adjustSoftButtonPositions();
+
 }
 
 void GraphicsView::timerEvent(QTimerEvent* event)
@@ -118,7 +131,7 @@ void GraphicsView::timerEvent(QTimerEvent* event)
 	if((mainMenuProxy_ && mainMenuProxy_->isVisible()))
 		return;
 
-	scene->advance();
+    scene()->advance();
 
 	if(scriptProxy)
 		scriptProxy->timerEvent(event);
@@ -131,17 +144,27 @@ void GraphicsView::timerEvent(QTimerEvent* event)
 	//mainLoop();
 }
 
-void GraphicsView::togglePause()
+void GraphicsView::setPaused(bool b)
 {
-	if(timer != NULL)
-    {
-		if(!timer->isActive())
-			timer->start(global::TimeoutInterval,this);
-		else if(timer->isActive())
-			timer->stop();
-    }
+    if(!timer || !graphicsEngine || b == isPaused())
+        return;
 
-	graphicsEngine->showText(tr("Pause"));
+        if(isPaused())
+        {
+        // TimeoutInterval is a global variable
+            timer->start(global::TimeoutInterval,this);
+            graphicsEngine->hideText();
+        }
+        else
+        {
+            timer->stop();
+            graphicsEngine->showText(tr("Pause"));
+        }
+}
+
+bool GraphicsView::isPaused()
+{
+    return !timer->isActive();
 }
 
 void GraphicsView::keyPressEvent(QKeyEvent *event)
@@ -151,14 +174,14 @@ void GraphicsView::keyPressEvent(QKeyEvent *event)
 	{
 	case Qt::Key_Pause:
 	{
-		togglePause();
+        setPaused(!isPaused());
 		break;
 	}
 	case Qt::Key_K:
 	{
-		qDebug() << scene->items().size();
+        qDebug() << scene()->items().size();
 
-		if(scriptProxy != NULL )
+        if(scriptProxy != Q_NULLPTR )
 		{
 			scriptProxy->disconnect();
 			scriptProxy->deleteLater();
@@ -261,8 +284,8 @@ void GraphicsView::createPlayerVehicle()
 	playerVehicle->setZValue(3.0);
 	playerVehicle->setHitpoints(10);
 
-	connect(playerVehicle,SIGNAL(destroyed()),this,SLOT(togglePause()));
-	scene->addItem(playerVehicle);
+    connect(playerVehicle,&Vehicle::destroyed,[this]{setPaused(true);});
+    scene()->addItem(playerVehicle);
 }
 
 QGradient GraphicsView::createBackgroundGradient() const
@@ -302,13 +325,14 @@ void GraphicsView::updateTopLevel()
 	}
 }
 
+
+
 // read window geometry
 void GraphicsView::readSettings()
 {
     QSettings settings;
 	QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
 	QSize size = settings.value("size", QSize(800, 600)).toSize();
-	renderer_ = settings.value("renderer",QString("Software")).toString();
 	pixmapCaching_ = settings.value("pixmapCaching",false).toBool();
 	gameState->setPhase(settings.value("phase",0).toInt());
 	resize(size);
@@ -321,7 +345,6 @@ void GraphicsView::writeSettings()
     QSettings settings;
 	settings.setValue("pos", pos());
 	settings.setValue("size", size());
-	settings.setValue("renderer",renderer_);
 	settings.setValue("pixmapCaching",mainMenu_ ? mainMenu_->cacheCheckBox->isChecked() : false);
 	if(!settings.contains("phase"))
 		settings.setValue("phase",0);
@@ -331,36 +354,89 @@ void GraphicsView::createMainMenu()
 {
 	mainMenu_ = new MainMenu;
 	mainMenu_->setWindowOpacity(0.8);
-	QComboBox * comboBox = mainMenu_->rendererComboBox;
-	comboBox->setCurrentIndex(comboBox->findText(renderer_,Qt::MatchFixedString));
 
 	mainMenu_->cacheCheckBox->setChecked(pixmapCaching_);
 
-	connect(mainMenu_->rendererComboBox,SIGNAL(currentIndexChanged(QString)),this,SLOT(setRenderer(QString)));
 	connect(mainMenu_->quitButton,SIGNAL(clicked()),this,SLOT(close()));
 	connect(mainMenu_->continueButton,SIGNAL(clicked()),mainMenu_,SLOT(hide()));
 
 	connect(mainMenu_->cacheCheckBox,SIGNAL(toggled(bool)),graphicsEngine,SLOT(setPixmapCaching(bool)));
 
-	mainMenuProxy_ = scene->addWidget(mainMenu_);
+    mainMenuProxy_ = scene()->addWidget(mainMenu_);
 	mainMenuProxy_->setZValue(1000);
-	mainMenuProxy_->setPos(centerRectInRect(scene->sceneRect(),mainMenuProxy_->geometry()));
+    mainMenuProxy_->setPos(centerRectInRect(scene()->sceneRect(),mainMenuProxy_->geometry()));
 	mainMenuProxy_->setFlag(QGraphicsItem::ItemIsMovable);
 	mainMenuProxy_->setCacheMode(QGraphicsItem::DeviceCoordinateCache);
 	mainMenuProxy_->hide();
 }
 
-void GraphicsView::setRenderer(const QString& renderer)
+void GraphicsView::adjustSoftButtonPositions()
 {
-	renderer_ = renderer;
-	if(!mainMenu_)
-		return;
 
-	QMessageBox warning (QMessageBox::Warning, tr("Restart required"),
-	tr("In order to take place for the changes, the application must be restarted."),
-	QMessageBox::Ok,mainMenu_);
 
-	warning.setWindowOpacity(mainMenu_->windowOpacity());
-	warning.exec();
+    for(int i = 0; i< leftSoftButtons_.size(); ++i)
+    {
+        GraphicsSoftButton *item = leftSoftButtons_[i];
+        item->setPos(QPointF(0.0 - borderSceneRectDist_.x() +128+i*256,-256.0));
+    }
+
+    for(int i = 0; i< rightSoftButtons_.size(); ++i)
+    {
+        GraphicsSoftButton *item = rightSoftButtons_[i];
+        item->setPos(QPointF(1600.0 + borderSceneRectDist_.x() -384-i*256,-256.0));
+    }
+}
+
+void GraphicsView::createSoftButtons()
+{
+    GraphicsSoftButton * moveRightButton = new GraphicsSoftButton(":images2/ic_arrow_forward_black_24px.svg");
+    GraphicsSoftButton * moveLeftButton = new GraphicsSoftButton(":images2/ic_arrow_back_black_24px.svg");
+    GraphicsSoftButton * shootButton = new GraphicsSoftButton(":images2/crosshairs.svg");
+
+    leftSoftButtons_ = QList<GraphicsSoftButton*>()  << moveLeftButton << moveRightButton;
+    rightSoftButtons_ = QList<GraphicsSoftButton*>()  <<  shootButton;
+    QList<GraphicsSoftButton*> buttons = QList<GraphicsSoftButton*>() << leftSoftButtons_ << rightSoftButtons_;
+
+    for(GraphicsSoftButton * item :  buttons)
+    {
+        item->setZValue(100.0);
+        item->scaleToWidth(256.0);
+        scene()->addItem(item);
+    }
+
+    connect(moveRightButton,&GraphicsSoftButton::pressed,[this](){
+        emit signalKeyPress(Qt::Key_Right);
+    });
+    connect(moveRightButton,&GraphicsSoftButton::released, [this](){
+        emit signalKeyRelease(Qt::Key_Right);
+    });
+
+    connect(moveLeftButton,&GraphicsSoftButton::pressed,[this](){
+        emit signalKeyPress(Qt::Key_Left);
+    });
+    connect(moveLeftButton,&GraphicsSoftButton::released, [this](){
+        emit signalKeyRelease(Qt::Key_Left);
+    });
+
+    connect(shootButton,&GraphicsSoftButton::pressed,[this](){
+        emit signalKeyPress(Qt::Key_Space);
+    });
+    connect(shootButton,&GraphicsSoftButton::released, [this](){
+        emit signalKeyRelease(Qt::Key_Space);
+    });
+}
+
+void GraphicsView::onApplicationStateChanged(Qt::ApplicationState state)
+{
+    switch (state) {
+    case Qt::ApplicationActive:
+        setPaused(false);
+        break;
+    case Qt::ApplicationHidden:
+    case Qt::ApplicationInactive:
+    case Qt::ApplicationSuspended:
+        setPaused(true);
+        break;
+    }
 }
 

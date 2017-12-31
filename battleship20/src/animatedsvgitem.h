@@ -73,10 +73,10 @@ public:
 	inline int frameCount() const { return svgCache_->size() *frameRateDivisor_;}
 
 	inline QSvgRenderer * svgRendererAt(int frame) const
-	{return svgCache_ == NULL ? NULL : svgCache_->svgRenderers().at(div(frame,frameRateDivisor_).quot);}
+	{return svgCache_ == Q_NULLPTR ? Q_NULLPTR : svgCache_->svgRenderers().at(div(frame,frameRateDivisor_).quot);}
 
 	inline QPixmap pixmapAt(int frame) const
-	{return svgCache_ == NULL ? currentPixmap_ : svgCache_->pixmaps().at(div(frame,frameRateDivisor_).quot);}
+	{return svgCache_ == Q_NULLPTR ? currentPixmap_ : svgCache_->pixmaps().at(div(frame,frameRateDivisor_).quot);}
 
 	int loopsRemaining() const { return loopsRemaining_;}
 

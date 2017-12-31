@@ -22,7 +22,6 @@ HEADERS = src/vehicle.h \
 	src/gamestate.h \
 	src/mainmenu.h \
     src/jsproxy.h \
-    src/androidhelper.h \
     src/graphicssoftbutton.h
 MOC_DIR = build
 OBJECTS_DIR = build
@@ -43,7 +42,6 @@ SOURCES = src/vehicle.cpp \
 	src/graphicsengine.cpp \
 	src/mainmenu.cpp \
     src/jsproxy.cpp \
-    src/androidhelper.cpp \
     src/graphicssoftbutton.cpp
 RESOURCES = ../images2.qrc \
 	../hitpointsBar_images.qrc \

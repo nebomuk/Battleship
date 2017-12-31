@@ -22,8 +22,15 @@ int main(int argc, char ** argv)
     helper.setScreenOrientation(SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
 #endif
 
+
+
 	qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));  // seed the random number generator
 	GraphicsView win;
+
+#if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
+    QObject::connect(&app,&QGuiApplication::applicationStateChanged,&win,&GraphicsView::onApplicationStateChanged);
+#endif
+
 	win.setWindowTitle("Battleship");
 	win.show();
 
