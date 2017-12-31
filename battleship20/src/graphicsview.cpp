@@ -24,6 +24,8 @@ void GraphicsView::createHighScoreCounter()
 
     QGraphicsProxyWidget* proxy = scene()->addWidget(highScoreCounter_);
     proxy->setZValue(100.0);
+
+
 }
 
 GraphicsView::GraphicsView( QWidget * parent)
@@ -44,11 +46,6 @@ GraphicsView::GraphicsView( QWidget * parent)
 	// disable scroll bars
 	this->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
 	this->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
-
-	// activates OpenGL
-	// if you uncomment this, add opengl to the QT variable in the project file
-	// hide cursor
-	//setCursor(Qt::BlankCursor);
 
 	// optimizations
 	this->setCacheMode(QGraphicsView::CacheBackground);
@@ -84,9 +81,11 @@ GraphicsView::GraphicsView( QWidget * parent)
 
 	createMainMenu();
 
+#if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
     createSoftButtons();
+#endif
 
-    adjustSoftButtonPositions();
+    adjustSoftButtonPositions(0);
 
 
 
@@ -118,10 +117,10 @@ void GraphicsView::resizeEvent(QResizeEvent *event)
 	}
     if(highScoreCounter_ != Q_NULLPTR && highScoreCounter_->graphicsProxyWidget() != Q_NULLPTR)
 	{
-        highScoreCounter_->graphicsProxyWidget()->setPos(QPointF(0 - borderSceneRectDist +64.0, 32.0));
+        highScoreCounter_->graphicsProxyWidget()->setPos(QPointF(0 - borderSceneRectDist, 32.0));
 	}
 
-    adjustSoftButtonPositions();
+    adjustSoftButtonPositions(borderSceneRectDist);
 
 }
 
@@ -239,7 +238,7 @@ void GraphicsView::keyReleaseEvent(QKeyEvent *event)
 
 void GraphicsView::createScriptProxy()
 {
-//*
+
     scriptProxy = new JSProxy(this);
 	connect(this,SIGNAL(signalKeyPress(int)),scriptProxy,SIGNAL(signalKeyPress(int)));
 	connect(this,SIGNAL(signalKeyRelease(int)),scriptProxy,SIGNAL(signalKeyRelease(int)));
@@ -253,22 +252,7 @@ void GraphicsView::createScriptProxy()
     scriptProxy->evaluateFile(":ai.js");
     scriptProxy->evaluateFile(":emitter.js");
     scriptProxy->evaluateFile(":mainloop.js");
-//*/
 
-	//*replacement for control.js. To let the script handle user input, uncomment this and enable the above line
-//	Control * control = new Control;
-//	control->setPlayerVehicle(playerVehicle);
-//	control->setGraphicsEngine(graphicsEngine);
-//	connect(this,SIGNAL(signalKeyPress(int)),control,SLOT(onKeyPress(int)));
-//	connect(this,SIGNAL(signalKeyRelease(int)),control,SLOT(onKeyRelease(int)));
-
-	/*
-	emitter_ = new Emitter;
-	emitter_->setGraphicsEngine(graphicsEngine);
-	ai_ = new AI;
-	ai_->setGraphicsEngine(graphicsEngine);
-	ai_->setPlayerVehicle(playerVehicle);
-//*/
 }
 
 void GraphicsView::createPlayerVehicle()
@@ -370,20 +354,21 @@ void GraphicsView::createMainMenu()
 	mainMenuProxy_->hide();
 }
 
-void GraphicsView::adjustSoftButtonPositions()
+void GraphicsView::adjustSoftButtonPositions(qreal borderSceneRectDist)
 {
 
+    qreal yDistanceFromTop = 336;
 
     for(int i = 0; i< leftSoftButtons_.size(); ++i)
     {
         GraphicsSoftButton *item = leftSoftButtons_[i];
-        item->setPos(QPointF(0.0 - borderSceneRectDist_.x() +128+i*256,-256.0));
+        item->setPos(QPointF(0.0 - borderSceneRectDist + i*256,yDistanceFromTop));
     }
 
     for(int i = 0; i< rightSoftButtons_.size(); ++i)
     {
         GraphicsSoftButton *item = rightSoftButtons_[i];
-        item->setPos(QPointF(1600.0 + borderSceneRectDist_.x() -384-i*256,-256.0));
+        item->setPos(QPointF(800.0 + borderSceneRectDist -256-i*128,yDistanceFromTop));
     }
 }
 
@@ -400,7 +385,8 @@ void GraphicsView::createSoftButtons()
     for(GraphicsSoftButton * item :  buttons)
     {
         item->setZValue(100.0);
-        item->scaleToWidth(256.0);
+        item->scaleToWidth(196.0);
+        item->setOpacity(0.5);
         scene()->addItem(item);
     }
 

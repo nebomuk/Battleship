@@ -84,9 +84,8 @@ private:
 
     bool doubleBackToExitPressedOnce_;
 
-    QPointF borderSceneRectDist_;
 
-    void adjustSoftButtonPositions();
+    void adjustSoftButtonPositions(qreal borderSceneRectDist);
     void createHighScoreCounter();
     void createSoftButtons();
 };
