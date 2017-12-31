@@ -8,6 +8,7 @@
 int main(int argc, char ** argv)
 {
 	QApplication app( argc, argv );
+    app.setQuitOnLastWindowClosed(false);
 	app.setApplicationName("battleship");
 	app.setOrganizationName("Taiko");
 	QString locale = QLocale::system().name();
@@ -16,11 +17,11 @@ int main(int argc, char ** argv)
 	app.installTranslator(&translator);
 
     // background image and tap gesture only work in landscape
-#ifdef Q_OS_ANDROID
-    AndroidHelper helper;
-    const int SCREEN_ORIENTATION_SENSOR_LANDSCAPE = 6;
-    helper.setScreenOrientation(SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-#endif
+//#ifdef Q_OS_ANDROID
+//    AndroidHelper helper;
+//    const int SCREEN_ORIENTATION_SENSOR_LANDSCAPE = 6;
+//    helper.setScreenOrientation(SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+//#endif
 
 
 

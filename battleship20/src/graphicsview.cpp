@@ -168,6 +168,12 @@ bool GraphicsView::isPaused()
 
 void GraphicsView::keyPressEvent(QKeyEvent *event)
 {
+    if(event->isAutoRepeat())
+    {
+        event->ignore();
+        return;
+    }
+
 	// pause game
 	switch(event->key())
 	{
@@ -191,19 +197,18 @@ void GraphicsView::keyPressEvent(QKeyEvent *event)
 		break;
 	}
 #ifdef Q_OS_ANDROID
-case Qt::Key_Back:
-{
-    if(graphicsEngine->gameState()->gameOver() || doubleBackToExitPressedOnce_)
+    case Qt::Key_Back:
     {
-       this->close(); // back to menu
+        if(playerVehicle  == Q_NULLPTR || doubleBackToExitPressedOnce_)
+        {
+           this->close(); // back to menu
+        }
+
+        graphicsEngine->showText(tr("Please click BACK again to return to the menu"));
+        doubleBackToExitPressedOnce_ = true;
+        QTimer::singleShot(2000,this,&GraphicsView::hideDoublePressToExit);
+        break;
     }
-
-    graphicsEngine->showText(tr("Please click BACK again to return to the menu"));
-    doubleBackToExitPressedOnce_ = true;
-    QTimer::singleShot(2000,this,&GraphicsView::hideDoublePressToExit);
-
-    break;
-}
 #endif
 	default:
 		{
@@ -222,6 +227,12 @@ void GraphicsView::hideDoublePressToExit()
 
 void GraphicsView::keyReleaseEvent(QKeyEvent *event)
 {
+    if(event->isAutoRepeat())
+    {
+        event->ignore();
+        return;
+    }
+
 	// quits the application
 	if(event->key() == Qt::Key_Escape)
 	{
@@ -233,7 +244,12 @@ void GraphicsView::keyReleaseEvent(QKeyEvent *event)
 
 		return;
 	}
-		emit signalKeyRelease(event->key());
+    else if(event->key() == Qt::Key_Back)
+    {
+        event->accept();
+        return;
+    }
+    emit signalKeyRelease(event->key());
 }
 
 void GraphicsView::createScriptProxy()
@@ -302,7 +318,7 @@ void GraphicsView::updateTopLevel()
     if(highScoreCounter_ &&  highScoreCounter_->intValue() != graphicsEngine->destroyedSubmarineCount())
         highScoreCounter_->display(graphicsEngine->destroyedSubmarineCount());
 
-	else if(!playerVehicle)
+    else if(playerVehicle  == Q_NULLPTR)
 	{
 		graphicsEngine->showText(tr("GAME OVER"));
 		hitpointsBar_->setFrame(0);
@@ -317,7 +333,7 @@ void GraphicsView::readSettings()
     QSettings settings;
 	QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
 	QSize size = settings.value("size", QSize(800, 600)).toSize();
-	pixmapCaching_ = settings.value("pixmapCaching",false).toBool();
+    pixmapCaching_ = settings.value("pixmapCaching",false).toBool();
 	gameState->setPhase(settings.value("phase",0).toInt());
 	resize(size);
 	move(pos);

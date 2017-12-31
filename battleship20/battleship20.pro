@@ -3,8 +3,8 @@ TARGET = battleship
 CONFIG += warn_on
 android {
     QT += androidextras
-    SOURCES += src/androidhelper.cpp #my android specific cpp file
-    HEADERS += src/androidhelper.h   #my android specific header file
+    SOURCES += src/androidhelper.cpp
+    HEADERS += src/androidhelper.h
 }
 
 HEADERS = src/vehicle.h \
@@ -23,9 +23,7 @@ HEADERS = src/vehicle.h \
 	src/mainmenu.h \
     src/jsproxy.h \
     src/graphicssoftbutton.h
-MOC_DIR = build
-OBJECTS_DIR = build
-UI_DIR = build
+
 FORMS = ui/mainmenu.ui
 QT += svg \
         opengl \
@@ -46,7 +44,6 @@ SOURCES = src/vehicle.cpp \
 RESOURCES = ../images2.qrc \
 	../hitpointsBar_images.qrc \
 	../explosion_images1.qrc \
-	../digits_images.qrc \
 	../cloud_images.qrc \
 	../translations.qrc \
     ../script.qrc
