@@ -41,13 +41,24 @@ SOURCES = src/vehicle.cpp \
 	src/mainmenu.cpp \
     src/jsproxy.cpp \
     src/graphicssoftbutton.cpp
-RESOURCES = ../images2.qrc \
-	../hitpointsBar_images.qrc \
-	../explosion_images1.qrc \
-	../cloud_images.qrc \
-	../translations.qrc \
-    ../script.qrc
+RESOURCES = images2.qrc \
+	hitpointsBar_images.qrc \
+	explosion_images1.qrc \
+	cloud_images.qrc \
+	translations.qrc \
+    script.qrc
 OTHER_FILES += src/mainloop.js \
 	src/emitter.js \
 	src/control.js \
 	src/ai.js
+
+DISTFILES += \
+    android/AndroidManifest.xml \
+    android/gradle/wrapper/gradle-wrapper.jar \
+    android/gradlew \
+    android/res/values/libs.xml \
+    android/build.gradle \
+    android/gradle/wrapper/gradle-wrapper.properties \
+    android/gradlew.bat
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
