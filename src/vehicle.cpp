@@ -4,8 +4,8 @@
 Vehicle::Vehicle(QGraphicsItem * parent)
 	:
 	MovingItem(parent),
-	AdvanceTimer(global::TimeoutInterval),
-	hitpoints_(1),
+    AdvanceTimer(40),
+    hitpoints_(1),
 	indestructible_(false),
     diplomacy_(0),
     subSea_(false)

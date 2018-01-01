@@ -5,13 +5,7 @@
 
 namespace global
 {
-	// you can adjust the gamespeed by changing TimeoutInterval
-	// on windows the game has a "half speed" bug
-#ifdef Q_OS_WIN32
-	const int TimeoutInterval = 8;
-#else
-	const int TimeoutInterval = 16;
-#endif
+
 	const double PI  = 3.141592653589793238512808959406186204433;
 }
 

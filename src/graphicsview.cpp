@@ -90,9 +90,16 @@ GraphicsView::GraphicsView( QWidget * parent)
     adjustSoftButtonPositions(0);
 
 
+    // you can adjust the gamespeed by changing TimeoutInterval
+    // on windows the game has a "half speed" bug
+#ifdef Q_OS_WIN32
+    timerTimeoutInterval_ = 8;
+#else
+    timerTimeoutInterval_ = 40;
+#endif
 
 	timer = new QBasicTimer;
-	timer->start(global::TimeoutInterval,this); // starting global timer here
+    timer->start(timerTimeoutInterval_,this); // starting global timer here
 
 	// initial phase, upcoming "enemy phases" are automatically shown by the script
 	graphicsEngine->showText(tr("Phase ") + QString::number(gameState->phase()),3000);
@@ -153,7 +160,7 @@ void GraphicsView::setPaused(bool b)
         if(isPaused())
         {
         // TimeoutInterval is a global variable
-            timer->start(global::TimeoutInterval,this);
+            timer->start(timerTimeoutInterval_,this);
             graphicsEngine->hideText();
         }
         else
@@ -206,7 +213,7 @@ void GraphicsView::keyPressEvent(QKeyEvent *event)
            this->close(); // back to menu
         }
 
-        graphicsEngine->showText(tr("Please click BACK again to return to the menu"));
+        graphicsEngine->showText(tr("Press again to Exit"));
         doubleBackToExitPressedOnce_ = true;
         QTimer::singleShot(2000,this,&GraphicsView::hideDoublePressToExit);
         break;

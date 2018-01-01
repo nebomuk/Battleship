@@ -65,6 +65,7 @@ private:
 
 	GraphicsEngine * graphicsEngine;
 	QBasicTimer *timer;
+    int timerTimeoutInterval_;
 	QString applicationFolder;
 	QPointer<Vehicle> playerVehicle; // automatically set to NULL if destroyed
     QProgressBar * hitpointsBar_;

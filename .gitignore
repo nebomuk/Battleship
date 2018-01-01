@@ -37,3 +37,8 @@ Makefile*
 # QtCtreator CMake
 CMakeLists.txt.user*
 
+android/gradle.properties
+android/gradle.properties~
+android/local.properties
+android/local.properties~
+
