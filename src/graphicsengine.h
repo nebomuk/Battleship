@@ -4,6 +4,7 @@
 #include <QGraphicsScene>
 #include <QTimer>
 #include <QPointer>
+#include <QProgressBar>
 #include "vehicle.h"
 #include "uprisetorpedo.h"
 #include "ballisticprojectile.h"
@@ -41,7 +42,7 @@ public:
 
 	/*Q_INVOKABLE*/ AnimatedSvgItem* createExplosionAt(const QPointF& position);
 
-	/*Q_INVOKABLE*/ AnimatedSvgItem* createHitpointsBarAt(const QPointF& position);
+    /*Q_INVOKABLE*/ QProgressBar *createHitpointsBarAt(const QPointF& position);
 
 	void setScene(QGraphicsScene * scene){scene_ = scene;}
 

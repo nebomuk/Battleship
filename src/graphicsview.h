@@ -67,7 +67,7 @@ private:
 	QBasicTimer *timer;
 	QString applicationFolder;
 	QPointer<Vehicle> playerVehicle; // automatically set to NULL if destroyed
-	AnimatedSvgItem * hitpointsBar_;
+    QProgressBar * hitpointsBar_;
     QPointer<QLCDNumber> highScoreCounter_;
 
     QPointer<JSProxy> scriptProxy;

@@ -67,6 +67,8 @@ GraphicsView::GraphicsView( QWidget * parent)
 	graphicsEngine->setPixmapCaching(pixmapCaching_);
 	hitpointsBar_ = graphicsEngine->createHitpointsBarAt(QPointF(512,512));
 
+
+
 	//scene->addRect(graphicsEngine->levelRect());
 
 	setStyleSheet("QGraphicsView { border: none }");
@@ -111,9 +113,9 @@ void GraphicsView::resizeEvent(QResizeEvent *event)
 	qreal widthSceneCoords = width* (600.0/height);
 	qreal borderSceneRectDist = (widthSceneCoords -800)/2.0;
 
-	if(hitpointsBar_)
+    if(hitpointsBar_ != Q_NULLPTR && hitpointsBar_->graphicsProxyWidget() != Q_NULLPTR)
 	{
-		hitpointsBar_->setPos(800.0 + borderSceneRectDist -128,32.0);
+        hitpointsBar_->graphicsProxyWidget()->setPos(800.0 + borderSceneRectDist -256,32.0);
 	}
     if(highScoreCounter_ != Q_NULLPTR && highScoreCounter_->graphicsProxyWidget() != Q_NULLPTR)
 	{
@@ -282,7 +284,7 @@ void GraphicsView::createPlayerVehicle()
 	playerVehicle->setDiplomacy(1); // 1 is player's diplomacy
 	playerVehicle->setMaximumVelocity(QPointF(1.5,1.5));
 	playerVehicle->setZValue(3.0);
-	playerVehicle->setHitpoints(10);
+    playerVehicle->setHitpoints(10);
 
     connect(playerVehicle,&Vehicle::destroyed,[this]{setPaused(true);});
     scene()->addItem(playerVehicle);
@@ -312,8 +314,8 @@ QGradient GraphicsView::createBackgroundGradient() const
 
 void GraphicsView::updateTopLevel()
 {
-	if(playerVehicle && hitpointsBar_->frame() != playerVehicle->hitpoints())
-		hitpointsBar_->setFrame(playerVehicle->hitpoints());
+    if(playerVehicle && hitpointsBar_->value() != playerVehicle->hitpoints())
+        hitpointsBar_->setValue(playerVehicle->hitpoints());
 
     if(highScoreCounter_ &&  highScoreCounter_->intValue() != graphicsEngine->destroyedSubmarineCount())
         highScoreCounter_->display(graphicsEngine->destroyedSubmarineCount());
@@ -321,7 +323,7 @@ void GraphicsView::updateTopLevel()
     else if(playerVehicle  == Q_NULLPTR)
 	{
 		graphicsEngine->showText(tr("GAME OVER"));
-		hitpointsBar_->setFrame(0);
+        hitpointsBar_->setValue(0);
 	}
 }
 

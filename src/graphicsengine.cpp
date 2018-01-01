@@ -1,5 +1,7 @@
 #include "graphicsengine.h"
 #include <QFont>
+#include <QGraphicsProxyWidget>
+#include <QProgressBar>
 
 GraphicsEngine::GraphicsEngine(QObject *parent) :
 	QObject(parent)
@@ -213,17 +215,28 @@ AnimatedSvgItem* GraphicsEngine::createExplosionAt(const QPointF& position)
 	return explosion;
 }
 
-AnimatedSvgItem* GraphicsEngine::createHitpointsBarAt(const QPointF& position)
+QProgressBar* GraphicsEngine::createHitpointsBarAt(const QPointF& position)
 {
-	AnimatedSvgItem * hitpointsBar = new AnimatedSvgItem;
-	hitpointsBar->setAdvancing(false);
-	hitpointsBar->setSvgCache(hitpointsBarCache);
-	hitpointsBar->setZValue(100.0);
-	//hitpointsBar->setOffset(AnimatedSvgItem::center(hitpointsBar));
-	hitpointsBar->setPos(position);
-	hitpointsBar->setFrame(10);
-	scene_->addItem(hitpointsBar);
-	return hitpointsBar;
+
+    QProgressBar * progress = new QProgressBar();
+    progress->resize(80,30);
+    progress->setRange(0,10);
+    progress->setValue(5);
+    progress->setTextVisible(false);
+    progress->setStyleSheet("QProgressBar{"
+                               "border: 1px solid transparent;"
+                               "text-align: center;"
+                               "color:rgba(0,0,0,100);"
+                               "border-radius: 5px;"
+                               "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(182, 182, 80, 100), stop:1 rgba(209, 209, 209, 100));"
+                                   "}"
+                               "QProgressBar::chunk{"
+                               "background-color: rgba(0,255,0,100);"
+                               "}");
+    QGraphicsProxyWidget * proxy =  scene_->addWidget(progress);
+    proxy->setZValue(100.0);
+    proxy->setPos(position);
+    return progress;
 }
 
 Vehicle * GraphicsEngine::createUpriseTorpedoAt(const QPointF& position /*=QPointF()*/,

@@ -42,7 +42,6 @@ SOURCES = src/vehicle.cpp \
     src/jsproxy.cpp \
     src/graphicssoftbutton.cpp
 RESOURCES = images2.qrc \
-	hitpointsBar_images.qrc \
 	explosion_images1.qrc \
 	cloud_images.qrc \
 	translations.qrc \
