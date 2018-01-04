@@ -6,7 +6,7 @@ function AIRoutineDefault()
 	var subs = graphicsEngine.submarines();
 	for (var i = 0; i< subs.length; ++i)
 	{
-		subs[i].xVelocity = 3.5;
+        subs[i].xVelocity = 6.5;
 		subs[i].yVelocity = 0.0;
 	}
 }
@@ -18,30 +18,30 @@ function AIRoutine3()
 
 	var subs = graphicsEngine.submarines();
 
-	if(subs.length != 0 && subs[0].x > 800)
-	for (var i = 0; i< subs.length; ++i)
-		subs[i].xVelocity = -1.5;
+    if(subs.length !== 0 && subs[0].x > 800)
+    for (var i = 0; i< subs.length; ++i)
+        subs[i].xVelocity = -3;
 
-	if(subs.length != 0 && subs[0].x < -100)
+    if(subs.length !== 0 && subs[0].x < -100)
 	for (var i = 0; i< subs.length; ++i)
-		subs[i].xVelocity = 1.5;
+        subs[i].xVelocity = 3;
 
-	if(subs.length != 0 && subs[0].y > 550)
+    if(subs.length !== 0 && subs[0].y > 550)
 	for (var i = 0; i< subs.length; ++i)
-		subs[i].yVelocity = -1.0;
+        subs[i].yVelocity = -2;
 
-	if(subs.length != 0 && subs[0].y < 350)
+    if(subs.length !== 0 && subs[0].y < 350)
 	for (var i = 0; i< subs.length; ++i)
-		subs[i].yVelocity = 1.0;
+        subs[i].yVelocity = 2;
 
-	if(shootCooldown == 0)
+    if(shootCooldown === 0)
 		for (var i = 0; i< subs.length; ++i)
 		{
-			shootCooldown = 150;
+            shootCooldown = 50;
 			var blueBomb = graphicsEngine.createBallisticProjectileAt(subs[i].x, subs[i].y);
 			blueBomb.file = ':images2/blueBomb.svg'
 			blueBomb.diplomacy = 2;
-			blueBomb.yVelocity = 3.0;
+            blueBomb.yVelocity = 6.0;
 			blueBomb.xVelocity = subs[i].xVelocity;
 		}
 }
@@ -61,7 +61,7 @@ function AIRoutine2()
 			blueBomb.file = ':images2/blueBomb.svg';
 			blueBomb.diplomacy = 2;
 			blueBomb.subSea = true;
-			shootCooldown = 60;
+            shootCooldown = 20;
 		}
 	}
 }
@@ -79,12 +79,12 @@ function AIRoutine1()
 
 		if(subs[i].y <380) // dont go near sea level
 		{
-			subs[i].yVelocity = 0.2;
+            subs[i].yVelocity = 0.4;
 			continue;
 		}
 		else if(subs[i].y > 550) // dont go too deep
 		{
-			subs[i].yVelocity = -0.2;
+            subs[i].yVelocity = -0.4;
 			continue;
 		}
 
@@ -92,7 +92,7 @@ function AIRoutine1()
 		{
 			var torpedo = graphicsEngine.createVehicleAt(subs[i].x,subs[i].y);
 			torpedo.diplomacy = 2;
-			torpedo.yVelocity = -1.5;
+            torpedo.yVelocity = -3;
 			torpedo.rotateMovingDirection();
 			torpedo.file = ':images2/greenTorpedo.svg';
 			torpedo.subSea = true;
@@ -113,12 +113,12 @@ function AIRoutine0()
 	{
 		if(subs[i].y <380) // dont go near sea level
 		{
-			subs[i].yVelocity = 0.2;
+            subs[i].yVelocity = 0.4;
 			continue;
 		}
 		else if(subs[i].y > 550) // dont go too deep
 		{
-			subs[i].yVelocity = -0.2;
+            subs[i].yVelocity = -0.4;
 			continue;
 		}
 
@@ -126,7 +126,7 @@ function AIRoutine0()
 		{
 			var torpedo = graphicsEngine.createVehicleAt(subs[i].x,subs[i].y);
 			torpedo.diplomacy = 2;
-			torpedo.yVelocity = -1.5;
+            torpedo.yVelocity = -3;
 			torpedo.rotateMovingDirection();
 			torpedo.file = ':images2/greenTorpedo.svg';
 			torpedo.subSea = true;
@@ -141,11 +141,11 @@ function updown(/* Vehicle* */ submarine)
 {
 	//*
 		if(submarine.x > 0 && submarine.x < 350)
-			submarine.yVelocity = 0.5;
+            submarine.yVelocity = 1;
 		if(submarine.x > 351 && submarine.x < 450)
-			submarine.yVelocity -=0.05;
+            submarine.yVelocity -=0.1;
 		if(submarine.x > 451)
-			submarine.yVelocity = -0.2;
+            submarine.yVelocity = -0.4;
 			//*/
 }
 

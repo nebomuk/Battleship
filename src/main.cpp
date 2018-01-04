@@ -8,7 +8,7 @@
 int main(int argc, char ** argv)
 {
 	QApplication app( argc, argv );
-    app.setQuitOnLastWindowClosed(false);
+    app.setQuitOnLastWindowClosed(true);
 	app.setApplicationName("battleship");
 	app.setOrganizationName("Taiko");
 	QString locale = QLocale::system().name();

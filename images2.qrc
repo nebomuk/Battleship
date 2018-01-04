@@ -4,11 +4,9 @@
         <file>images2/redSubmarine.svg</file>
         <file>images2/orangeSubmarine.svg</file>
         <file>images2/greenTorpedo.svg</file>
-        <file>images2/battleship.svg</file>
         <file>images2/bomb.svg</file>
         <file>images2/blueSubmarine.svg</file>
         <file alias="weed.svg">images2/weed.svg</file>
-        <file>images2/yellowBattleship.svg</file>
         <file>images2/bossSubmarine0.svg</file>
         <file>images2/bossSubmarine1.svg</file>
         <file>images2/bossSubmarine2.svg</file>
@@ -17,5 +15,6 @@
         <file>images2/crosshairs.svg</file>
         <file>images2/ic_arrow_back_black_24px.svg</file>
         <file>images2/ic_arrow_forward_black_24px.svg</file>
+        <file>images2/newBattleship.svg</file>
     </qresource>
 </RCC>

@@ -14,7 +14,7 @@ public:
 	int phase() const { return phase_;}
 	bool finalPhase() const{ return finalPhase_;}
 	void setFinalPhase(bool b){finalPhase_ = b;}
-	int phaseChangeCycles() const { return 4000;}
+    int phaseChangeCycles() const { return 1500;}
 
 signals:
 	void signalPhaseChanged(int);

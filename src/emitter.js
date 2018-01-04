@@ -5,9 +5,9 @@ var backgroundCounter = 0;
 
 function emitter0()
 {
-	if(++counter == 1000)
+    if(++counter == 500)
 		counter = 0;
-	if(counter%100 == 0)
+    if(counter%50 == 0)
 	{
 		submarineEmitter0();
 	}
@@ -15,9 +15,9 @@ function emitter0()
 
 function emitter1()
 {
-	if(++counter == 1000)
+    if(++counter == 500)
 		counter = 0;
-	if(counter%200 == 0)
+    if(counter%100 == 0)
 	{
 		submarineEmitter1();
 	}
@@ -25,9 +25,9 @@ function emitter1()
 
 function emitter2()
 {
-	if(++counter == 1000)
+    if(++counter == 500)
 		counter = 0;
-	if(counter%200 == 0)
+    if(counter%100 == 0)
 	{
 		submarineEmitter2();
 	}
@@ -35,21 +35,21 @@ function emitter2()
 
 function emitter3()
 {
-	if(counter <10000) // TODO set this to 900
+    if(counter <5000) // TODO set this to 900
 	{
 		submarineEmitter3();
 	}
-	counter = 10000;
+    counter = 5000;
 }
 
 function backgroundEmitter()
 {
 	++backgroundCounter;
-	if(backgroundCounter%100 == 0)
+    if(backgroundCounter%50 == 0)
 	{
 		grassEmitter();
 	}
-	if(backgroundCounter% 600 == 0)
+    if(backgroundCounter% 300 == 0)
 	{
 		cloudEmitter();
 	}
@@ -59,7 +59,7 @@ function backgroundEmitter()
 function submarineEmitter0()
 {
 	var submarine = graphicsEngine.createVehicleAt(-800/2-128,480,':images2/orangeSubmarine.svg');
-	submarine.xVelocity = 1.0 + Math.random();
+    submarine.xVelocity = 2 + Math.random();
 	submarine.diplomacy = 2;
 	graphicsEngine.appendSubmarine(submarine);
 }
@@ -67,7 +67,7 @@ function submarineEmitter0()
 function submarineEmitter1()
 {
 	var submarine = graphicsEngine.createVehicleAt(-800/2-128,430,':images2/redSubmarine.svg');
-	submarine.xVelocity = 1.0 + Math.random();
+    submarine.xVelocity = 2.0 + Math.random();
 	submarine.diplomacy = 2;
 	graphicsEngine.appendSubmarine(submarine);
 }
@@ -75,13 +75,13 @@ function submarineEmitter1()
 function submarineEmitter2()
 {
 	var submarine = graphicsEngine.createVehicleAt(-800/2-128,400 + 180*Math.random(),':images2/blueSubmarine.svg');
-	submarine.xVelocity = 1.4 + Math.random();
+    submarine.xVelocity = 3 + Math.random();
 	submarine.diplomacy = 2;
 	submarine.hitpoints = 2;
 	graphicsEngine.appendSubmarine(submarine);
 	var mine = graphicsEngine.createVehicleAt(800+800/2 + 128,300,':images2/seaMine.svg');
 	mine.diplomacy = 2;
-	mine.xVelocity = -0.5;
+    mine.xVelocity = -1;
 	graphicsEngine.appendProjectile(mine);
 }
 
@@ -97,8 +97,8 @@ function submarineEmitter3()
 	{
 		boss[i].hitpoints = 10;
 		boss[i].diplomacy = 2;
-		boss[i].xVelocity = 1.5;
-		boss[i].yVelocity = 1.5;
+        boss[i].xVelocity = 3;
+        boss[i].yVelocity = 3;
 		graphicsEngine.appendSubmarine(boss[i]);
 	}
 }
@@ -109,7 +109,7 @@ function grassEmitter()
 	grass.pixmapCaching = true;
 	graphicsEngine.appendBackgroundItem(grass);
 	grass.zValue = 50.0;
-	grass.xVelocity = -0.8;
+    grass.xVelocity = -1.6;
 }
 
 function cloudEmitter()
@@ -117,7 +117,7 @@ function cloudEmitter()
 	var randomNumber = Math.random();
 	var cloudfile = ':cloud_images/cloud' + Math.floor(randomNumber*3) + '.svg';
 	var cloud = graphicsEngine.createMovingItemAt(800.0+800/2.0,50 + 200*randomNumber,cloudfile);
-	cloud.xVelocity = -0.5;
+    cloud.xVelocity = -1;
 	cloud.zValue = 0.0;
 	graphicsEngine.appendBackgroundItem(cloud);
 }

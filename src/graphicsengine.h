@@ -116,7 +116,6 @@ public slots:
 
 private:
 	SvgCache * explosionCache;
-	SvgCache * hitpointsBarCache;
 	QList<AnimatedSvgItem*> explosions;
 	QList<Vehicle*> projectiles_;
 	QList<Vehicle*> submarines_;

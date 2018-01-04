@@ -14,14 +14,6 @@ GraphicsEngine::GraphicsEngine(QObject *parent) :
 		explosionCache = new SvgCache;
 		explosionCache->addSvgRenderers(renderers);
 	}
-	{
-		QList<QSvgRenderer*> renderers;
-		for(int i = 0; i<11; ++i)
-			renderers.push_back(new QSvgRenderer(":hitpointsBar_images/hitpointsBar" + QString::number(i) + ".svg"));
-
-		 hitpointsBarCache = new SvgCache;
-		 hitpointsBarCache->addSvgRenderers(renderers);
-	}
 
 	textSprite = new QGraphicsSimpleTextItem;
 	QFont font( "Courier", 32);
@@ -206,7 +198,7 @@ AnimatedSvgItem* GraphicsEngine::createExplosionAt(const QPointF& position)
 	explosion->setPixmapCaching(pixmapCaching_);
 	explosion->setSvgCache(explosionCache);
 	explosion->setLoopCount(1);
-	explosion->setFrameRateDivisor(4);
+    explosion->setFrameRateDivisor(2);
 	explosion->setZValue(5.0);
 	explosion->setOffset(AnimatedSvgItem::center(explosion));
 	explosion->setPos(position);
@@ -247,8 +239,8 @@ Vehicle * GraphicsEngine::createUpriseTorpedoAt(const QPointF& position /*=QPoin
 	torpedo->setDiplomacy(-1);
 	torpedo->setFile(svg.isEmpty() ? ":images2/greenTorpedo.svg" : svg);
 	torpedo->setOffset(Vehicle::center(torpedo)); // origin to center
-	torpedo->setVelocity(QPointF(1.0,0.0));
-	torpedo->setAcceleration(QPointF(0.0,4.0)); // only y part of acceleration is used
+    torpedo->setVelocity(QPointF(2.0,0.0));
+    torpedo->setAcceleration(QPointF(0.0,8.0)); // only y part of acceleration is used
 	torpedo->setPos(position);
 	projectiles_.push_back(torpedo);
 	scene_->addItem(torpedo);
@@ -262,7 +254,7 @@ Vehicle * GraphicsEngine::createBallisticProjectileAt(const QPointF& position /*
 		bomb->setZValue(4.0);
 		bomb->setDiplomacy(-1);
 		bomb->setFile(svg.isEmpty() ? ":images2/bomb.svg" : svg);
-		bomb->setVelocity(QPointF(1.0,1.0));
+        bomb->setVelocity(QPointF(2.0,2.0));
 		bomb->setOffset(Vehicle::center(bomb)); // origin to center
 		bomb->setPos(position);
 		projectiles_.push_back(bomb);

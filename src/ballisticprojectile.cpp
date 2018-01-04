@@ -4,7 +4,7 @@ BallisticProjectile::BallisticProjectile(QGraphicsItem * parent )
 		:
 		Vehicle(parent),
 		waterFriction_(false),
-		gravity_(6.0),
+        gravity_(12.0),
 		launchVelocityY_(0.0)
 {
 	start(); // start Timer

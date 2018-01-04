@@ -27,7 +27,7 @@ void UpriseTorpedo::advance(int phase)
 		advanceTime();
 
 		time = elapsedTime();
-		setYVelocity(launchVelocityY_ - acceleration().y()  * time/4096.0);  // change overall speed here
+        setYVelocity(launchVelocityY_ - acceleration().y()  * time/2048.0);  // change overall speed here
 
 		if(autoRotate_)
 		rotateMovingDirection(this);

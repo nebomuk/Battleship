@@ -15,14 +15,14 @@ function onKeyPress(key)
 		case Qt.Key_A:
 		{
 			keyLeftActive = true;
-				PlayerVehicle.xAcceleration = -0.18;
+                PlayerVehicle.xAcceleration = -0.4;
 			break;
 		}
 		case Qt.Key_Right:
 		case Qt.Key_D:
 		{
 			keyRightActive = true;
-				PlayerVehicle.xAcceleration = 0.18;
+                PlayerVehicle.xAcceleration = 0.4;
 			break;
 		}
 		case Qt.Key_S:
@@ -59,7 +59,7 @@ switch (key)
 		{
 			keyLeftActive = false;
 				if(keyRightActive)
-					PlayerVehicle.xAcceleration = 0.18;
+                    PlayerVehicle.xAcceleration = 0.4;
 				else
 					PlayerVehicle.xAcceleration = 0.0;
 			break;
@@ -69,7 +69,7 @@ switch (key)
 		{
 			keyRightActive = false;
 				if(keyLeftActive)
-					PlayerVehicle.xAcceleration = 0.18;
+                    PlayerVehicle.xAcceleration = 0.4;
 				else
 					PlayerVehicle.xAcceleration = 0.0;
 			break;

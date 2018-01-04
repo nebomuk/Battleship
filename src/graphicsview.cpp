@@ -90,13 +90,7 @@ GraphicsView::GraphicsView( QWidget * parent)
     adjustSoftButtonPositions(0);
 
 
-    // you can adjust the gamespeed by changing TimeoutInterval
-    // on windows the game has a "half speed" bug
-#ifdef Q_OS_WIN32
-    timerTimeoutInterval_ = 8;
-#else
-    timerTimeoutInterval_ = 40;
-#endif
+   timerTimeoutInterval_ = 40;
 
 	timer = new QBasicTimer;
     timer->start(timerTimeoutInterval_,this); // starting global timer here
@@ -282,14 +276,14 @@ void GraphicsView::createScriptProxy()
 
 void GraphicsView::createPlayerVehicle()
 {
-	QPointF pos(100,0.44*600);
+    QPointF pos(100,0.44*500);
 
 	playerVehicle = new Vehicle;
-	playerVehicle->setFile(":images2/yellowBattleship.svg");
+    playerVehicle->setFile(":images2/newBattleship.svg");
 	playerVehicle->setPos(pos);
-	playerVehicle->setDecceleration(QPointF(0.05,0));
+    playerVehicle->setDecceleration(QPointF(0.1,0));
 	playerVehicle->setDiplomacy(1); // 1 is player's diplomacy
-	playerVehicle->setMaximumVelocity(QPointF(1.5,1.5));
+    playerVehicle->setMaximumVelocity(QPointF(4,4));
 	playerVehicle->setZValue(3.0);
     playerVehicle->setHitpoints(10);
 
