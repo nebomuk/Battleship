@@ -7,6 +7,8 @@ import Qt3D.Extras 2.0
 Entity {
     id: sceneRoot
 
+    property vector3d modelRotationAngles: Qt.vector3d(180,30,0)
+
     Camera {
         id: camera
         projectionType: CameraLens.PerspectiveProjection
@@ -19,9 +21,9 @@ Entity {
         viewCenter: Qt.vector3d( 0.0, 0.0, 0.0 )
     }
 
-    OrbitCameraController {
-        camera: camera
-    }
+//    OrbitCameraController {
+//        camera: camera
+//    }
 
     components: [
         RenderSettings {
@@ -42,7 +44,13 @@ Entity {
         id: torusTransform
         property real userAngle: 0.0
         scale3D: Qt.vector3d(1.0, 1, 1.0)
-        rotation: fromAxisAndAngle(Qt.vector3d(1, 0, 0), userAngle)
+        matrix: {
+                    var m = Qt.matrix4x4();
+                    m.rotate(modelRotationAngles.x, Qt.vector3d(1, 0, 0));
+                    m.rotate(modelRotationAngles.y, Qt.vector3d(0, 1, 0));
+                    m.rotate(modelRotationAngles.z, Qt.vector3d(0, 0, 1));
+                    return m;
+                }
     }
 
     QQ2.NumberAnimation {

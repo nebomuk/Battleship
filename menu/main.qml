@@ -28,4 +28,38 @@ Window {
 
     }
 
+    MouseArea {
+    id: globalMouseArea
+    anchors.fill: parent
+    preventStealing: true
+    property real velocity: 0.0
+    property vector2d start : Qt.vector2d(0.0,0.0)
+    property vector2d prev : Qt.vector2d(0.0,0.0)
+    property bool tracing: false
+    onPressed: {
+    start = Qt.vector2d(mouse.x,mouse.y)
+    prev = start
+    tracing = true
+    }
+    onPositionChanged: {
+    if ( !tracing ) return
+
+    var currPos = Qt.vector2d(mouse.x,mouse.y);
+    var delta = currPos.minus(prev);
+    // FIXME fix initial model orientation instead of x,y swap
+    var angularImpulse = Qt.vector3d(delta.y,delta.x,0.0).times(0.1)
+    console.log(delta)
+    modelScene.modelRotationAngles = modelScene.modelRotationAngles.plus(angularImpulse)
+
+    console.log("onPositionChanged")
+
+    prev = currPos
+    }
+    onReleased: {
+    tracing = false
+    console.log("onRelease")
+
+    }
+    }
+
 }
