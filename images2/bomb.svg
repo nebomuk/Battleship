@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -9,11 +10,11 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="7.6605492"
-   height="7.6604156"
+   width="9.9610558"
+   height="9.9608774"
    id="svg3353"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="0.91 r13725"
    version="1.0"
    sodipodi:docname="bomb.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
@@ -253,7 +254,7 @@
        x2="507.72205"
        y1="1382.6801"
        x1="506.09705"
-       gradientTransform="translate(9.625,6.25e-2)"
+       gradientTransform="translate(9.625,0.0625)"
        gradientUnits="userSpaceOnUse"
        id="linearGradient3760"
        xlink:href="#linearGradient5110"
@@ -293,9 +294,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="4"
-     inkscape:cx="117.625"
-     inkscape:cy="-49.422969"
+     inkscape:zoom="32"
+     inkscape:cx="1.7975031"
+     inkscape:cy="5.9148219"
      inkscape:document-units="px"
      inkscape:current-layer="g6770"
      showgrid="false"
@@ -303,8 +304,13 @@
      inkscape:guide-bbox="true"
      inkscape:window-width="1278"
      inkscape:window-height="913"
-     inkscape:window-x="0"
-     inkscape:window-y="24" />
+     inkscape:window-x="155"
+     inkscape:window-y="51"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata3358">
     <rdf:RDF>
@@ -313,6 +319,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -320,24 +327,21 @@
      inkscape:label="Capa 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-26.628785,-61.891401)">
+     transform="translate(-26.681654,-61.94429)">
     <g
        id="g6770"
        transform="translate(-242.124,-1231.2)">
       <g
-         transform="matrix(3.848389e-2,0,0,3.8538101e-2,259.09417,1276.4114)"
+         transform="matrix(0.05074124,0,0,0.05081271,256.001,1271.0819)"
          id="g3820"
          inkscape:label="Capa 1">
-        <path
+        <circle
            transform="matrix(2.95563,0,0,2.95142,-121.285,407.345)"
-           d="M 192.75,42.305397 A 33.125,33.125 0 1 1 126.5,42.305397 A 33.125,33.125 0 1 1 192.75,42.305397 z"
-           sodipodi:ry="33.125"
-           sodipodi:rx="33.125"
-           sodipodi:cy="42.305397"
-           sodipodi:cx="159.625"
            id="path4393"
-           style="opacity:1;fill:url(#radialGradient4401);fill-opacity:1;fill-rule:nonzero;stroke:#445057;stroke-width:0.16928899;stroke-linecap:butt;stroke-linejoin:miter;marker:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible"
-           sodipodi:type="arc" />
+           style="display:inline;overflow:visible;visibility:visible;opacity:1;fill:url(#radialGradient4401);fill-opacity:1;fill-rule:nonzero;stroke:#445057;stroke-width:0.16928899;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none"
+           cx="159.625"
+           cy="42.305397"
+           r="33.125" />
       </g>
     </g>
   </g>
