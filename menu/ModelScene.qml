@@ -28,7 +28,7 @@ Entity {
     components: [
         RenderSettings {
             activeFrameGraph: ForwardRenderer {
-                clearColor: Qt.rgba(0, 0.5, 1, 1)
+                clearColor: Qt.rgba(0.2, 0.8, 1, 1)
                 camera: camera
             }
         },
@@ -38,10 +38,11 @@ Entity {
 
     PhongMaterial {
         id: material
+        ambient: Qt.darker("red",1.5)
     }
 
     Transform {
-        id: torusTransform
+        id: modelTransform
         property real userAngle: 0.0
         scale3D: Qt.vector3d(1.0, 1, 1.0)
         matrix: {
@@ -54,7 +55,7 @@ Entity {
     }
 
     QQ2.NumberAnimation {
-        target: torusTransform
+        target: modelTransform
         property: "userAngle"
         duration: 10000
         from: 0
@@ -66,14 +67,14 @@ Entity {
     }
 
     Entity {
-        id: torusEntity
+        id: modelEntity
 
        Mesh {
            id: mesh
            source: "qrc:/models/submarine.obj"
        }
 
-        components: [ mesh, material, torusTransform ]
+        components: [ mesh, material, modelTransform ]
     }
 
     SphereMesh {

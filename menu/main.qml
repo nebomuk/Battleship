@@ -31,12 +31,12 @@ Window {
     MouseArea {
         id: globalMouseArea
         anchors.fill: parent
-        preventStealing: true
+       // preventStealing: true
         property real velocity: 0.0
         property vector2d start : Qt.vector2d(0.0,0.0)
         property vector2d prev : Qt.vector2d(0.0,0.0)
         property vector2d angularMomentum : Qt.vector2d(0,0)
-        property vector3d angularImpulse : Qt.vector3d(0,0)
+        property vector3d angularImpulse : Qt.vector3d(0,0,0)
         property vector2d accumulatedMomentum : Qt.vector2d(0,0)
         property bool tracing: false
         onPressed: {
