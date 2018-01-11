@@ -29,37 +29,53 @@ Window {
     }
 
     MouseArea {
-    id: globalMouseArea
-    anchors.fill: parent
-    preventStealing: true
-    property real velocity: 0.0
-    property vector2d start : Qt.vector2d(0.0,0.0)
-    property vector2d prev : Qt.vector2d(0.0,0.0)
-    property bool tracing: false
-    onPressed: {
-    start = Qt.vector2d(mouse.x,mouse.y)
-    prev = start
-    tracing = true
+        id: globalMouseArea
+        anchors.fill: parent
+        preventStealing: true
+        property real velocity: 0.0
+        property vector2d start : Qt.vector2d(0.0,0.0)
+        property vector2d prev : Qt.vector2d(0.0,0.0)
+        property vector2d angularMomentum : Qt.vector2d(0,0)
+        property vector3d angularImpulse : Qt.vector3d(0,0)
+        property vector2d accumulatedMomentum : Qt.vector2d(0,0)
+        property bool tracing: false
+        onPressed: {
+            start = Qt.vector2d(mouse.x,mouse.y)
+            prev = start
+            tracing = true
+            angularMomentum = Qt.vector2d(0,0)
+            accumulatedMomentum = Qt.vector2d(0,0)
+
+            angularRotationTimer.stop();
+        }
+        onPositionChanged: {
+            if ( !tracing ) return
+
+            var currPos = Qt.vector2d(mouse.x,mouse.y);
+            var delta = currPos.minus(prev);
+
+            // FIXME fix initial model orientation instead of x,y swap
+
+            angularImpulse = Qt.vector3d(delta.y,delta.x,0.0).times(0.1)
+            modelScene.modelRotationAngles = modelScene.modelRotationAngles.plus(angularImpulse)
+
+
+            prev = currPos
+        }
+        onReleased: {
+            tracing = false
+
+            angularRotationTimer.start();
+        }
     }
-    onPositionChanged: {
-    if ( !tracing ) return
 
-    var currPos = Qt.vector2d(mouse.x,mouse.y);
-    var delta = currPos.minus(prev);
-    // FIXME fix initial model orientation instead of x,y swap
-    var angularImpulse = Qt.vector3d(delta.y,delta.x,0.0).times(0.1)
-    console.log(delta)
-    modelScene.modelRotationAngles = modelScene.modelRotationAngles.plus(angularImpulse)
-
-    console.log("onPositionChanged")
-
-    prev = currPos
-    }
-    onReleased: {
-    tracing = false
-    console.log("onRelease")
-
-    }
+    Timer {
+        repeat: true
+        id : angularRotationTimer
+        interval : 16
+        onTriggered: {
+             modelScene.modelRotationAngles = modelScene.modelRotationAngles.plus(globalMouseArea.angularImpulse)
+        }
     }
 
 }

@@ -60,6 +60,7 @@ Entity {
         from: 0
         to: 360
 
+
         loops: QQ2.Animation.Infinite
         running: true
     }
