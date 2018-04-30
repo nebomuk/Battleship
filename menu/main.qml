@@ -9,10 +9,12 @@ Window {
    height: Qt.platform.os == "android" || Qt.platform.os == "ios" ? Screen.height : 480
     visible: true // required, else it will be invisible
 
+    property real divider : 1.5;
+
 
     ModelScene
     {
-        width: Math.min(img.width /2, img.height / 2)
+        width: Math.min(img.width /divider, img.height / divider)
         height: width
         anchors.verticalCenter:  img.verticalCenter
         anchors.right: img.right
@@ -34,7 +36,7 @@ Window {
                    Rectangle {
                        anchors.verticalCenter:  parent.verticalCenter
                        anchors.right: parent.right
-                       width: Math.min(img.width /2, img.height / 2)
+                       width: Math.min(img.width /divider, img.height / divider)
                        height: width
                        radius: Math.min(width, height)
                    }
@@ -47,7 +49,7 @@ Window {
         source : "qrc:/boatWindow.svg"
         anchors.verticalCenter:  img.verticalCenter
         anchors.right: img.right
-        width: Math.min(img.width /2, img.height / 2)
+        width: Math.min(img.width /divider, img.height / divider)
         height: width
 
     }
