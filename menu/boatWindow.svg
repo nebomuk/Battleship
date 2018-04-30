@@ -15,9 +15,9 @@
    inkscape:version="0.91 r13725"
    version="1.1"
    id="svg2"
-   viewBox="0 0 744.09448819 1052.3622047"
-   height="297mm"
-   width="210mm">
+   viewBox="0 0 361.92993 361.9319"
+   height="102.14523mm"
+   width="102.14467mm">
   <sodipodi:namedview
      inkscape:snap-page="false"
      inkscape:guide-bbox="true"
@@ -30,15 +30,19 @@
      showgrid="false"
      inkscape:current-layer="layer1"
      inkscape:document-units="px"
-     inkscape:cy="495.43915"
-     inkscape:cx="484.564"
+     inkscape:cy="150.224"
+     inkscape:cx="121.25071"
      inkscape:zoom="0.98994949"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
      bordercolor="#666666"
      pagecolor="#ffffff"
-     id="base" />
+     id="base"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
   <defs
      id="defs4">
     <linearGradient
@@ -227,14 +231,15 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
      id="layer1"
      inkscape:groupmode="layer"
-     inkscape:label="Layer 1">
+     inkscape:label="Layer 1"
+     transform="translate(-191.08228,-345.21516)">
     <path
        id="path8816"
        d="M 520.22018,526.1811 A 148.17293,148.17293 0 0 1 372.04723,674.35402 148.17293,148.17293 0 0 1 223.87431,526.1811 148.17293,148.17293 0 0 1 372.04723,378.00818 148.17293,148.17293 0 0 1 520.22018,526.1811 Z"

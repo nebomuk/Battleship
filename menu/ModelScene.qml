@@ -1,86 +1,99 @@
-import QtQuick 2.2 as QQ2
+import QtQuick 2.5
 import Qt3D.Core 2.0
 import Qt3D.Render 2.0
 import Qt3D.Input 2.0
 import Qt3D.Extras 2.0
+import QtQuick.Scene3D 2.0
+import Qt.labs.folderlistmodel 2.1
 
-Entity {
-    id: sceneRoot
+Item
+{
 
-    property vector3d modelRotationAngles: Qt.vector3d(180,30,0)
+FolderListModel {
+        folder: "qrc:/models"
+        id: folderModel
+        showFiles: true
+        showDirs: false
 
-    Camera {
-        id: camera
-        projectionType: CameraLens.PerspectiveProjection
-        fieldOfView: 45
-        aspectRatio: 4/3
-        nearPlane : 0.1
-        farPlane : 1000.0
-        position: Qt.vector3d( 0.0, 0.0, -20.0 )
-        upVector: Qt.vector3d( 0.0, 1.0, 0.0 )
-        viewCenter: Qt.vector3d( 0.0, 0.0, 0.0 )
+        // model loads asynchronously after Component.onCompleted
+        onCountChanged :
+        {
+            modelScene.meshSource = get(currentMeshIndex,"fileURL");
+        }
+
+        property int currentMeshIndex: 0
+
+        function nextMesh()
+        {
+          currentMeshIndex++;
+            currentMeshIndex = currentMeshIndex % folderModel.count;
+            modelScene.meshSource = get(currentMeshIndex,"fileURL");
+        }
     }
 
-//    OrbitCameraController {
-//        camera: camera
-//    }
+Scene3D {
 
-    components: [
-        RenderSettings {
-            activeFrameGraph: ForwardRenderer {
-                clearColor: Qt.rgba(0.2, 0.8, 1, 1)
-                camera: camera
-            }
-        },
-        // Event Source will be set by the Qt3DQuickWindow
-        InputSettings { }
-    ]
+    id: scene3d
+               anchors.fill:  parent
+               focus: true
+               aspects: ["input", "logic"]
+   cameraAspectRatioMode: Scene3D.AutomaticAspectRatio
 
-    PhongMaterial {
-        id: material
-        ambient: Qt.darker("red",1.5)
+   ModelEntity {
+       id: modelScene
+
+   }
+}
+
+MouseArea {
+    id: globalMouseArea
+    anchors.fill: parent
+   // preventStealing: true
+    property real velocity: 0.0
+    property vector2d start : Qt.vector2d(0.0,0.0)
+    property vector2d prev : Qt.vector2d(0.0,0.0)
+    property vector2d angularMomentum : Qt.vector2d(0,0)
+    property vector3d angularImpulse : Qt.vector3d(1,1,1).times(0.5)
+    property vector2d accumulatedMomentum : Qt.vector2d(0,0)
+    property bool tracing: false
+    onPressed: {
+        start = Qt.vector2d(mouse.x,mouse.y)
+        prev = start
+        tracing = true
+        angularMomentum = Qt.vector2d(0,0)
+        accumulatedMomentum = Qt.vector2d(0,0)
+
+        angularRotationTimer.stop();
     }
+    onPositionChanged: {
+        if ( !tracing ) return
 
-    Transform {
-        id: modelTransform
-        property real userAngle: 0.0
-        scale3D: Qt.vector3d(1.0, 1, 1.0)
-        matrix: {
-                    var m = Qt.matrix4x4();
-                    m.rotate(modelRotationAngles.x, Qt.vector3d(1, 0, 0));
-                    m.rotate(modelRotationAngles.y, Qt.vector3d(0, 1, 0));
-                    m.rotate(modelRotationAngles.z, Qt.vector3d(0, 0, 1));
-                    return m;
-                }
+        var currPos = Qt.vector2d(mouse.x,mouse.y);
+        var delta = currPos.minus(prev);
+
+        // FIXME fix initial model orientation instead of x,y swap
+
+        angularImpulse = Qt.vector3d(delta.y,delta.x,0.0).times(0.1)
+        modelScene.modelRotationAngles = modelScene.modelRotationAngles.plus(angularImpulse)
+
+
+        prev = currPos
     }
+    onReleased: {
+        tracing = false
 
-    QQ2.NumberAnimation {
-        target: modelTransform
-        property: "userAngle"
-        duration: 10000
-        from: 0
-        to: 360
-
-
-        loops: QQ2.Animation.Infinite
-        running: true
+        folderModel.nextMesh();
+        angularRotationTimer.start();
     }
+}
 
-    Entity {
-        id: modelEntity
-
-       Mesh {
-           id: mesh
-           source: "qrc:/models/submarine.obj"
-       }
-
-        components: [ mesh, material, modelTransform ]
+Timer {
+    repeat: true
+    running: true
+    id : angularRotationTimer
+    interval : 16
+    onTriggered: {
+         modelScene.modelRotationAngles = modelScene.modelRotationAngles.plus(globalMouseArea.angularImpulse)
     }
-
-    SphereMesh {
-        id: sphereMesh
-        radius: 3
-    }
-
-
+}
 }

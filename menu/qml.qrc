@@ -1,10 +1,13 @@
 <RCC>
     <qresource prefix="/">
-        <file>ModelScene.qml</file>
+        <file>ModelEntity.qml</file>
         <file>CameraController.qml</file>
         <file>models/seamine.obj</file>
         <file>models/submarine.obj</file>
         <file>models/torpedo.obj</file>
         <file>main.qml</file>
+        <file>ModelScene.qml</file>
+        <file>woodTile.svg</file>
+        <file>boatWindow.svg</file>
     </qresource>
 </RCC>
