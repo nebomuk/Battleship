@@ -45,6 +45,7 @@ Window {
            }
     }
 
+    // this image always vanishes as soon as ModelScene is rendered
     Image
     {
         id : boatWindow
