@@ -1,6 +1,8 @@
-QT += 3dcore 3drender 3dinput 3dquick 3dlogic qml quick 3dquickextras
+QT += 3dcore 3drender 3dinput 3dquick 3dlogic qml quick 3dquickextras svg xml widgets
 
 CONFIG += c++11
+
+QTPLUGIN += qsvg
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings

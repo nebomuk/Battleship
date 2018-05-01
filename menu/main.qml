@@ -36,7 +36,8 @@ Window {
                    Rectangle {
                        anchors.verticalCenter:  parent.verticalCenter
                        anchors.right: parent.right
-                       width: Math.min(img.width /divider, img.height / divider)
+                       anchors.rightMargin: 90/ 2  * Math.min(img.width , img.height) / 390
+                       width: Math.min(img.width , img.height)/divider- 90  *Math.min(img.width , img.height) / 390
                        height: width
                        radius: Math.min(width, height)
                    }
@@ -46,6 +47,7 @@ Window {
 
     Image
     {
+        id : boatWindow
         source : "qrc:/boatWindow.svg"
         anchors.verticalCenter:  img.verticalCenter
         anchors.right: img.right
@@ -53,8 +55,5 @@ Window {
         height: width
 
     }
-
-
-
 
 }

@@ -1,3 +1,4 @@
+#include <QApplication>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <Qt3DQuickExtras/qt3dquickwindow.h>
@@ -10,7 +11,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_UseDesktopOpenGL);
 #endif
 
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv); // QWidget/QApplication required to include svg libs in android to avoid the "svg image format not supported" bug
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
