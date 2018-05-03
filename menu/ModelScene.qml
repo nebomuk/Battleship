@@ -39,6 +39,8 @@ Scene3D {
                aspects: ["input", "logic"]
    cameraAspectRatioMode: Scene3D.AutomaticAspectRatio
 
+   multisample: Qt.platform.os != "android" && Qt.platform.os != "ios"
+
    ModelEntity {
        id: modelScene
 

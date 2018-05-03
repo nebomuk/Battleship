@@ -12,14 +12,47 @@ Window {
     property real divider : 1.5;
 
 
-    ModelScene
-    {
-        width: Math.min(img.width /divider, img.height / divider)
-        height: width
-        anchors.verticalCenter:  img.verticalCenter
-        anchors.right: img.right
+//    ModelScene
+//    {
+//        width: Math.min(img.width /divider, img.height / divider)
+//        height: width
+//        anchors.verticalCenter:  img.verticalCenter
+//        anchors.right: img.right
 
+//    }
+
+    // background color same as Scene3D clear color
+    color: Qt.rgba(0.2, 0.8, 1, 1)
+
+
+    Image
+    {
+        id : submarine
+        width : boatWindow.width * 0.2
+        fillMode: Image.PreserveAspectFit
+        source: "qrc:/orangeSubmarine.svg"
+        anchors.verticalCenter : img.verticalCenter
+        anchors.right : parent.right
+
+        ParallelAnimation {
+                    id: xAnim
+                    // Animations on properties start running by default
+                    running: true
+                    loops: Animation.Infinite // The animation is set to loop indefinitely
+                    NumberAnimation {
+                        target: submarine
+                        property: "anchors.rightMargin"
+                        from : 0.5* Screen.width; to : -200; duration: 5000; easing.type: Easing.Linear }
+
+                    ScaleAnimator {
+                                  target: submarine
+                                  from: 4
+                                  to: 1
+                                  duration: 5000
+                              }
+                }
     }
+
 
     Image
     {
@@ -33,6 +66,7 @@ Window {
                maskSource: Item {
                    width: img.width
                    height: img.height
+
                    Rectangle {
                        anchors.verticalCenter:  parent.verticalCenter
                        anchors.right: parent.right
@@ -40,6 +74,7 @@ Window {
                        width: Math.min(img.width , img.height)/divider- 90  *Math.min(img.width , img.height) / 390
                        height: width
                        radius: Math.min(width, height)
+
                    }
                }
            }
@@ -54,7 +89,12 @@ Window {
         anchors.right: img.right
         width: Math.min(img.width /divider, img.height / divider)
         height: width
-
     }
+
+
+
+
+
+
 
 }

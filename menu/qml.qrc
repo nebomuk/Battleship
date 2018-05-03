@@ -9,5 +9,6 @@
         <file>ModelScene.qml</file>
         <file>woodTile.svg</file>
         <file>boatWindow.svg</file>
+        <file alias="orangeSubmarine.svg">../images2/orangeSubmarine.svg</file>
     </qresource>
 </RCC>
