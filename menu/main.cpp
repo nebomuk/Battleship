@@ -12,6 +12,8 @@ int main(int argc, char *argv[])
 #endif
 
     QApplication app(argc, argv); // QWidget/QApplication required to include svg libs in android to avoid the "svg image format not supported" bug
+ QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));

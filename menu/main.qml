@@ -5,8 +5,19 @@ import QtGraphicalEffects 1.0
 
 Window {
 
-    width:  Qt.platform.os == "android" || Qt.platform.os == "ios" ? Screen.width : 800
-   height: Qt.platform.os == "android" || Qt.platform.os == "ios" ? Screen.height : 480
+    id : window
+
+    Component.onCompleted:
+        {
+            if(Qt.platform.os !== "android" && Qt.platform.os !== "ios" && Qt.platform.os !== "tvos")
+            {
+                width = 800
+                height = 480
+            }
+    }
+
+
+
     visible: true // required, else it will be invisible
 
     property real divider : 1.5;
@@ -129,10 +140,41 @@ Window {
     {
         id : playButton
         source: "qrc:/playButton.svg"
-        width: Math.min(img.width /divider, img.height / divider)/2
+        width: Math.min(img.width /divider, img.height / divider)/3
         height: width
-        anchors.verticalCenter:  img.verticalCenter
+        opacity: 1
+//        anchors.verticalCenter:  img.verticalCenter
         anchors.horizontalCenter:  img.horizontalCenter
+
+        property real yFraction: 0.0
+
+        onYFractionChanged:
+        {
+            y = yFraction * img.height
+        }
+
+        ParallelAnimation
+        {
+            running: true
+
+
+                      NumberAnimation{
+                      property : "yFraction"
+                      target: playButton;
+                      from: 0.0;
+                      to: 0.4;
+                      duration: 1500
+                      easing.type : Easing.OutBounce
+                      }
+
+        OpacityAnimator {
+                  target: playButton;
+                  from: 0.1;
+                  to: 0.9;
+                  duration: 2000
+              }
+
+        }
 
     }
 
