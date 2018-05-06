@@ -38,7 +38,7 @@ Window {
                     id: xAnim
                     // Animations on properties start running by default
                     running: true
-                    loops: Animation.Infinite // The animation is set to loop indefinitely
+                    loops: Animation.Infinite
                     NumberAnimation {
                         target: submarine
                         property: "anchors.rightMargin"
@@ -91,10 +91,49 @@ Window {
         height: width
     }
 
+    Image
+    {
+        id : boatsWindow
+        source : "qrc:/boatsWheel.svg"
+        width: Math.min(img.width /divider, img.height / divider)
+        height: width
+        anchors.verticalCenter:  img.verticalCenter
+        anchors.left: img.left
 
+        SequentialAnimation
+        {
+            running: true
 
+            loops: Animation.Infinite
 
+            RotationAnimator {
+                      target: boatsWindow;
+                      from: 0;
+                      to: 360;
+                      duration: 3000
+                      easing.type : Easing.InOutQuad
 
+                  }
+            RotationAnimator {
+                      target: boatsWindow;
+                      from: 360;
+                      to: 0;
+                      duration: 3000
+                      easing.type : Easing.InOutQuad
 
+                  }
+        }
+    }
+
+    Image
+    {
+        id : playButton
+        source: "qrc:/playButton.svg"
+        width: Math.min(img.width /divider, img.height / divider)/2
+        height: width
+        anchors.verticalCenter:  img.verticalCenter
+        anchors.horizontalCenter:  img.horizontalCenter
+
+    }
 
 }

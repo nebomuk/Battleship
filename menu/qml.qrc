@@ -10,5 +10,7 @@
         <file>woodTile.svg</file>
         <file>boatWindow.svg</file>
         <file alias="orangeSubmarine.svg">../images2/orangeSubmarine.svg</file>
+        <file>boatsWheel.svg</file>
+        <file>playButton.svg</file>
     </qresource>
 </RCC>
