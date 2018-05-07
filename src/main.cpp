@@ -16,6 +16,8 @@ int main(int argc, char ** argv)
 	translator.load(':' + locale);
 	app.installTranslator(&translator);
 
+
+
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/src/main.qml")));
 
@@ -27,6 +29,7 @@ int main(int argc, char ** argv)
 #endif
 
     graphicsView.setWindowTitle("Battleship");
+    graphicsView.setWindowIcon(QIcon(":/images2/ic_launcher.svg"));
 
     engine.rootContext()->setContextProperty("GraphicsView",&graphicsView);
 

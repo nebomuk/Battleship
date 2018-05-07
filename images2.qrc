@@ -16,5 +16,6 @@
         <file>images2/ic_arrow_back_black_24px.svg</file>
         <file>images2/ic_arrow_forward_black_24px.svg</file>
         <file>images2/newBattleship.svg</file>
+        <file>images2/ic_launcher.svg</file>
     </qresource>
 </RCC>
