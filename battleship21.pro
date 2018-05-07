@@ -1,11 +1,7 @@
 TEMPLATE = app
 TARGET = battleship
 CONFIG += warn_on
-android {
-    QT += androidextras
-    SOURCES += src/androidhelper.cpp
-    HEADERS += src/androidhelper.h
-}
+
 
 HEADERS = src/vehicle.h \
 	src/advancetimer.h \
@@ -27,8 +23,14 @@ HEADERS = src/vehicle.h \
 FORMS = ui/mainmenu.ui
 QT += svg \
         opengl \
-        qml \
-        3dcore 3drender 3dinput 3dquick 3dlogic quick 3dquickextras xml widgets
+        qml quick \
+        widgets
+
+# ModelScene.qml only loaded on non mobile os
+!android&!ios{
+
+QT += 3dcore 3drender 3dinput 3dquick 3dlogic  3dquickextras
+}
 
 DEFINES += QT_DEPRECATED_WARNINGS
 

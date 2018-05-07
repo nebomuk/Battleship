@@ -14,23 +14,35 @@ Window {
                 width = 800
                 height = 480
             }
+
+
     }
 
+    property bool modelSceneEnabled: Qt.platform.os != "android" && Qt.platform.os != "ios"
 
+    // 3d model scene not loaded on android/ios due to issues when overdrawing on top of the scene
+    Timer
+    {
+         interval: 150; running: modelSceneEnabled ; repeat: false
+        onTriggered: {
+            var component = Qt.createComponent("ModelScene.qml");
+            var scene = component.createObject(window,
+                                           {
+                                               "z": -1,
+                                               "width": Math.min(img.width /divider, img.height / divider),
+                                               "height": Math.min(img.width /divider, img.height / divider),
+                                               "anchors.verticalCenter":  img.verticalCenter,
+                                               "anchors.right": img.right
+                                           }
+
+                                           );
+        }
+    }
 
     visible: true // required, else it will be invisible
 
     property real divider : 1.5;
 
-
-//    ModelScene
-//    {
-//        width: Math.min(img.width /divider, img.height / divider)
-//        height: width
-//        anchors.verticalCenter:  img.verticalCenter
-//        anchors.right: img.right
-
-//    }
 
     // background color same as Scene3D clear color
     color: Qt.rgba(0.2, 0.8, 1, 1)
@@ -38,6 +50,7 @@ Window {
 
     Image
     {
+        visible: modelSceneEnabled // this 2d animated submarine is used instead of model scene on android and ios
         id : submarine
         width : boatWindow.width * 0.2
         fillMode: Image.PreserveAspectFit
@@ -85,7 +98,6 @@ Window {
                        width: Math.min(img.width , img.height)/divider- 90  *Math.min(img.width , img.height) / 390
                        height: width
                        radius: Math.min(width, height)
-
                    }
                }
            }
@@ -131,12 +143,9 @@ Window {
                       to: 0;
                       duration: 3000
                       easing.type : Easing.InOutQuad
-
                   }
         }
     }
-
-
 
     Image
     {
@@ -154,9 +163,7 @@ Window {
                 GraphicsView.show();
                 window.hide();
             }
-
         }
-
 
         property real yFraction: 0.0
 
