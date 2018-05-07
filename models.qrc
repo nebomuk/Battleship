@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>models/seamine.obj</file>
+        <file>models/submarine.obj</file>
+        <file>models/torpedo.obj</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>menu_images/boatsWheel.svg</file>
+        <file>menu_images/boatWindow.svg</file>
+        <file>menu_images/playButton.svg</file>
+        <file>menu_images/woodTile.svg</file>
+    </qresource>
+</RCC>

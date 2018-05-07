@@ -41,7 +41,7 @@ Window {
         id : submarine
         width : boatWindow.width * 0.2
         fillMode: Image.PreserveAspectFit
-        source: "qrc:/orangeSubmarine.svg"
+        source: "qrc:/images2/orangeSubmarine.svg"
         anchors.verticalCenter : img.verticalCenter
         anchors.right : parent.right
 
@@ -68,7 +68,7 @@ Window {
     Image
     {
         id : img
-        source: "qrc:/woodTile.svg"
+        source: "qrc:/menu_images/woodTile.svg"
         anchors.fill: parent
         fillMode: Image.Tile
            layer.enabled: true
@@ -95,7 +95,7 @@ Window {
     Image
     {
         id : boatWindow
-        source : "qrc:/boatWindow.svg"
+        source : "qrc:/menu_images/boatWindow.svg"
         anchors.verticalCenter:  img.verticalCenter
         anchors.right: img.right
         width: Math.min(img.width /divider, img.height / divider)
@@ -105,7 +105,7 @@ Window {
     Image
     {
         id : boatsWindow
-        source : "qrc:/boatsWheel.svg"
+        source : "qrc:/menu_images/boatsWheel.svg"
         width: Math.min(img.width /divider, img.height / divider)
         height: width
         anchors.verticalCenter:  img.verticalCenter
@@ -136,15 +136,27 @@ Window {
         }
     }
 
+
+
     Image
     {
         id : playButton
-        source: "qrc:/playButton.svg"
+        source: "qrc:/menu_images/playButton.svg"
         width: Math.min(img.width /divider, img.height / divider)/3
         height: width
-        opacity: 1
-//        anchors.verticalCenter:  img.verticalCenter
+        opacity: 0
         anchors.horizontalCenter:  img.horizontalCenter
+
+        MouseArea{
+            anchors.fill: parent
+            onClicked: {
+
+                GraphicsView.show();
+                window.hide();
+            }
+
+        }
+
 
         property real yFraction: 0.0
 

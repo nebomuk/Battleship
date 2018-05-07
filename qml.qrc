@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>src/CameraController.qml</file>
+        <file>src/main.qml</file>
+        <file>src/ModelEntity.qml</file>
+        <file>src/ModelScene.qml</file>
+    </qresource>
+</RCC>

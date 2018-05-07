@@ -27,7 +27,12 @@ HEADERS = src/vehicle.h \
 FORMS = ui/mainmenu.ui
 QT += svg \
         opengl \
-        qml
+        qml \
+        3dcore 3drender 3dinput 3dquick 3dlogic quick 3dquickextras xml widgets
+
+DEFINES += QT_DEPRECATED_WARNINGS
+
+QTPLUGIN += qsvg
 
 SOURCES = src/vehicle.cpp \
 	src/ballisticprojectile.cpp \
@@ -45,7 +50,10 @@ RESOURCES = images2.qrc \
 	explosion_images1.qrc \
 	cloud_images.qrc \
 	translations.qrc \
-    script.qrc
+    script.qrc \
+    menu_images.qrc \
+    models.qrc \
+    qml.qrc
 OTHER_FILES += src/mainloop.js \
 	src/emitter.js \
 	src/control.js \

@@ -1,14 +1,14 @@
 #include <QApplication>
+#include <QQmlApplicationEngine>
 #include <QTime>
-#ifdef Q_OS_ANDROID
-#include "androidhelper.h"
-#endif
 #include "graphicsview.h"
+#include <QQmlContext>
+
 
 int main(int argc, char ** argv)
 {
 	QApplication app( argc, argv );
-    app.setQuitOnLastWindowClosed(true);
+    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 	app.setApplicationName("battleship");
 	app.setOrganizationName("Taiko");
 	QString locale = QLocale::system().name();
@@ -16,24 +16,19 @@ int main(int argc, char ** argv)
 	translator.load(':' + locale);
 	app.installTranslator(&translator);
 
-    // background image and tap gesture only work in landscape
-//#ifdef Q_OS_ANDROID
-//    AndroidHelper helper;
-//    const int SCREEN_ORIENTATION_SENSOR_LANDSCAPE = 6;
-//    helper.setScreenOrientation(SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-//#endif
-
-
+    QQmlApplicationEngine engine;
+    engine.load(QUrl(QStringLiteral("qrc:/src/main.qml")));
 
 	qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));  // seed the random number generator
-	GraphicsView win;
+    GraphicsView graphicsView;
 
 #if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
-    QObject::connect(&app,&QGuiApplication::applicationStateChanged,&win,&GraphicsView::onApplicationStateChanged);
+    QObject::connect(&app,&QGuiApplication::applicationStateChanged,&graphicsView,&GraphicsView::onApplicationStateChanged);
 #endif
 
-	win.setWindowTitle("Battleship");
-	win.show();
+    graphicsView.setWindowTitle("Battleship");
+
+    engine.rootContext()->setContextProperty("GraphicsView",&graphicsView);
 
 	app.connect( &app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) );
 	return app.exec();
