@@ -9,7 +9,7 @@ int main(int argc, char ** argv)
 {
 	QApplication app( argc, argv );
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-	app.setApplicationName("battleship");
+    app.setApplicationName("Battleship");
 	app.setOrganizationName("Taiko");
 	QString locale = QLocale::system().name();
 	QTranslator translator;
