@@ -3,12 +3,30 @@
 This is a simple sidescrolling arcade game where you defend your ship against submarines.  
 It is written in C++, QML and Javascript. 
 
-Requires at least Qt 5.8 or newer to compile.
 
 ## Supported Platforms
-Any Qt: Windows, Linux, macOS, Android
+Any of the platforms supported by Qt: Windows, Linux, macOS, Android
+
+## Installation
+
+Windows: Binary releases can be found on the releases page of this github repository
+
+Linux: Building from source requires at least Qt 5.8 or newer.
+
+It can be build using the QtCreator IDE.
+
+Android: Install it from the Play Store
 
 <a href='https://play.google.com/store/apps/details?id=com.github.taiko000.battleship&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height = '90px' /></a>
+
+## Building
+
+### Linux
+Requires at least Qt 5.8 or greater to build.
+
+### Windows
+Recommended Qt versions to build from source via MinGW and MSVC2017 include Qt 5.8 - Qt 5.10. 
+As of March 2020, Qt for Windows > 5.11 suffers from various bugs in Qt 3D and QtJSEngine that will cause runtime errors. 
 
 
 ## Screenshots
@@ -19,6 +37,8 @@ Any Qt: Windows, Linux, macOS, Android
 
 ## License
 Battleship is licensed under the MIT License
+
+(C) 2020 The Battleship authors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
