@@ -6,6 +6,7 @@
 #include <QGraphicsView>
 #include <QBasicTimer>
 #include <QtOpenGL/QtOpenGL>
+#include <QLCDNumber>
 #include <QPointer>
 #include "centerrectinrect.h"
 #include "jsproxy.h"

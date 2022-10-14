@@ -26,6 +26,10 @@ QT += svg \
         qml quick \
         widgets
 
+greaterThan(QT_MAJOR_VERSION, 5) {
+    QT += svgwidgets
+}
+
 # ModelScene.qml only loaded on non mobile os
 !android&!ios{
 

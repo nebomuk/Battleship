@@ -6,6 +6,7 @@
 #include "globalvariables.h"
 #include "svgcache.h"
 #include <QtDebug>
+#include <QGraphicsProxyWidget>
 
 
 
@@ -50,8 +51,8 @@ GraphicsView::GraphicsView( QWidget * parent)
 	// optimizations
 	this->setCacheMode(QGraphicsView::CacheBackground);
 
-	this->setOptimizationFlags(QGraphicsView::DontClipPainter
-										|QGraphicsView::DontSavePainterState
+    this->setOptimizationFlags(
+                                        QGraphicsView::DontSavePainterState
 										|QGraphicsView::DontAdjustForAntialiasing);
 
     QGraphicsScene * scene = new QGraphicsScene(0.0,0.0,800.0,600.0,this);
