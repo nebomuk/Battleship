@@ -1,6 +1,5 @@
 import QtQuick.Window 2.2
 import QtQuick 2.5
-import QtGraphicalEffects 1.0
 
 
 Window {
@@ -20,6 +19,14 @@ Window {
 
     property bool modelSceneEnabled: Qt.platform.os != "android" && Qt.platform.os != "ios"
 
+    property real boatWinWidthHeight : Math.min(img.width /divider, img.height / divider)
+
+    visible: true // required, else it will be invisible
+
+    color: Qt.rgba(1, 1, 1, 1)
+
+    property real divider : 1.5;
+
     // 3d model scene not loaded on android/ios due to issues when overdrawing on top of the scene
     Timer
     {
@@ -28,9 +35,9 @@ Window {
             var component = Qt.createComponent("ModelScene.qml");
             var scene = component.createObject(window,
                                            {
-                                               "z": -1,
-                                               "width": Math.min(img.width /divider, img.height / divider),
-                                               "height": Math.min(img.width /divider, img.height / divider),
+                                               "z": 2,
+                                               "width": boatWinWidthHeight,
+                                               "height": boatWinWidthHeight,
                                                "anchors.verticalCenter":  img.verticalCenter,
                                                "anchors.right": img.right
                                            }
@@ -39,13 +46,32 @@ Window {
         }
     }
 
-    visible: true // required, else it will be invisible
+    Rectangle {
+        id : modelSceneBackground
+        z : 1
+        width: boatWinWidthHeight
+        height : boatWinWidthHeight
+        anchors.verticalCenter:  img.verticalCenter
+        anchors.right: img.right
+        gradient: Gradient.MalibuBeach
+        border.width: 0
+        radius: width/2
+    }
 
-    property real divider : 1.5;
+    // this image always vanishes as soon as ModelScene is rendered
+    Image
+    {
+        id : boatWindow
+        z : 3
+        source : "qrc:/menu_images/boatWindow.svg"
+        anchors.verticalCenter:  img.verticalCenter
+        anchors.right: img.right
+        width: Math.min(img.width /divider, img.height / divider)
+        height: width
+    }
 
 
-    // background color same as Scene3D clear color
-    color: Qt.rgba(0.2, 0.8, 1, 1)
+
 
 
     Image
@@ -84,35 +110,9 @@ Window {
         source: "qrc:/menu_images/woodTile.svg"
         anchors.fill: parent
         fillMode: Image.Tile
-           layer.enabled: true
-           layer.effect: OpacityMask {
-               invert : true
-               maskSource: Item {
-                   width: img.width
-                   height: img.height
-
-                   Rectangle {
-                       anchors.verticalCenter:  parent.verticalCenter
-                       anchors.right: parent.right
-                       anchors.rightMargin: 90/ 2  * Math.min(img.width , img.height) / 390
-                       width: Math.min(img.width , img.height)/divider- 90  *Math.min(img.width , img.height) / 390
-                       height: width
-                       radius: Math.min(width, height)
-                   }
-               }
-           }
     }
 
-    // this image always vanishes as soon as ModelScene is rendered
-    Image
-    {
-        id : boatWindow
-        source : "qrc:/menu_images/boatWindow.svg"
-        anchors.verticalCenter:  img.verticalCenter
-        anchors.right: img.right
-        width: Math.min(img.width /divider, img.height / divider)
-        height: width
-    }
+
 
     Image
     {
