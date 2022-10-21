@@ -7,10 +7,10 @@
 
 int main(int argc, char ** argv)
 {
-	QApplication app( argc, argv );
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+	QApplication app( argc, argv );
     app.setApplicationName("Battleship");
-	app.setOrganizationName("Taiko");
+    app.setOrganizationName("Battleship");
 	QString locale = QLocale::system().name();
 	QTranslator translator;
 	translator.load(':' + locale);
@@ -21,7 +21,6 @@ int main(int argc, char ** argv)
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/src/main.qml")));
 
-	qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));  // seed the random number generator
     GraphicsView graphicsView;
 
 #if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)

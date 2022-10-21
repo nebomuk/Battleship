@@ -6,12 +6,15 @@
 #include "movingitem.h"
 
 // taken from textrix example, retrieve the staticMetaObject
+#if QT_VERSION < 0x060000
+
 struct QtMetaObject : private QObject
 {
 public:
     static const QMetaObject *get()
         { return &static_cast<QtMetaObject*>(0)->staticQtMetaObject; }
 };
+#endif
 
 // make Vehicle type available in QtScript
 //Q_DECLARE_METATYPE(Vehicle*)
@@ -23,18 +26,27 @@ JSProxy::JSProxy(QObject *parent) : QObject(parent)
     engine_ = new QJSEngine(parent); // must be QJSEngine, because global object of QQmlEngine cannot be modified
     engine_->installExtensions(QJSEngine::AllExtensions);
 
+#if QT_VERSION >= 0x060000
+
+    qmlRegisterType<Vehicle>("",1.0,0,"Vehicle");
+    qmlRegisterType<AnimatedSvgItem>("",1.0,0,"AnimatedSvgItem");
+    qmlRegisterType<MovingItem>("",1.0,0,"MovingItem");
+#else
     qmlRegisterType<Vehicle>();
     qmlRegisterType<AnimatedSvgItem>();
     qmlRegisterType<MovingItem>();
+#endif
 
     QJSValue metaObject=	engine_->newQMetaObject(&Vehicle::staticMetaObject);
     engine_->globalObject().setProperty("Vehicle", metaObject);
 
     // Make Qt:: enums  namespace (colors etc.) available in script
+#if QT_VERSION >= 0x060000
+    QJSValue Qt = engine_->newQMetaObject(&Qt::staticMetaObject);
+#else
     QJSValue Qt = engine_->newQMetaObject(QtMetaObject::get());
+#endif
     engine_->globalObject().setProperty("Qt", Qt);
-
-
 
 
  // forwarding of keyPress and keyRelease signals
